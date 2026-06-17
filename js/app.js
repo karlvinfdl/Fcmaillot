@@ -55,7 +55,7 @@ function chargerConfig() {
           note:   Math.min(5, Math.max(1, Number(a.note) || 5)),
           texte:  String(a.texte  || '').trim(),
           photo:  String(a.photo  || '').trim(),
-          valide: String(a.valide || '').toUpperCase().trim()
+          valide: String(a.valide || a.Valide || a.VALIDE || '').toUpperCase().trim()
         }))
         /* Seules les lignes où valide = "TRUE" sont affichées (modération manuelle) */
         .filter(a => a.texte && a.valide === 'TRUE');

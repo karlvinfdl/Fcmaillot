@@ -160,7 +160,52 @@ Les changements apparaissent sur le site dans les **2-5 minutes** (délai du cac
 
 ---
 
-## 2. Gérer les produits via le fichier JSON (méthode simple)
+## 2. Ajouter une photo de maillot sans passer par GitHub
+
+Si vous gérez vos produits depuis Google Sheets et que vous voulez ajouter une photo
+sans demander à votre développeur, suivez ces étapes avec Imgur (gratuit, sans compte).
+
+### Étape 1 : Uploader la photo sur Imgur
+
+1. Allez sur https://imgur.com/upload
+2. Glissez votre photo de maillot dans la zone d'upload (formats JPG ou PNG, idéalement carrée)
+3. Attendez la fin de l'upload
+
+### Étape 2 : Récupérer le lien direct de l'image
+
+1. Une fois l'image uploadée, cliquez-droit sur l'image affichée
+2. Choisissez "Copier l'adresse de l'image" (ou "Copy image address")
+3. Le lien doit ressembler à : https://i.imgur.com/AbCd123.png
+   (il doit se terminer par .png ou .jpg, sinon ce n'est pas le bon lien)
+
+### Étape 3 : Coller le lien dans Google Sheets
+
+1. Ouvrez votre Google Sheets, onglet "Produits"
+2. Dans la colonne "image" de la ligne correspondant à votre maillot, collez le lien copié
+3. Exemple : au lieu de `images/produits/paris24.png`, mettez
+   `https://i.imgur.com/AbCd123.png`
+
+### Étape 4 : Vérifier que ça fonctionne
+
+Le site se mettra à jour automatiquement (quelques minutes de délai possible).
+Si l'image ne s'affiche pas :
+- Vérifiez que le lien se termine bien par `.jpg` ou `.png`
+- Vérifiez qu'il n'y a pas d'espace avant ou après le lien dans la cellule
+- Re-testez le lien en le collant directement dans un nouvel onglet de votre navigateur :
+  si l'image s'affiche seule sur la page, le lien est correct
+
+### À savoir
+
+- Une fois uploadée sur Imgur, l'image reste en ligne sans limite de temps connue,
+  mais Imgur peut supprimer les images inactives après une longue période sans vue.
+  Pour un usage commercial sérieux, héberger les images directement dans le dossier
+  `images/produits/` du site (via GitHub) reste la solution la plus fiable à long terme.
+- Vous pouvez mélanger les deux méthodes : certaines photos dans `images/produits/`,
+  d'autres en lien Imgur, selon ce qui vous est le plus simple au moment de l'ajout.
+
+---
+
+## 3. Gérer les produits via le fichier JSON (méthode simple)
 
 Si vous ne voulez pas utiliser Google Sheets, ouvrez `data/produits.json` avec le Bloc-Notes.
 
@@ -191,7 +236,7 @@ Si vous ne voulez pas utiliser Google Sheets, ouvrez `data/produits.json` avec l
 
 ---
 
-## 3. Changer vos informations (sans Google Sheets)
+## 4. Changer vos informations (sans Google Sheets)
 
 Ouvrez `data/config.json` avec le Bloc-Notes.
 
@@ -209,7 +254,7 @@ Ouvrez `data/config.json` avec le Bloc-Notes.
 
 ---
 
-## 4. Ajouter une photo de maillot
+## 5. Ajouter une photo de maillot (via GitHub)
 
 1. Renommez votre photo en minuscules sans espaces : `arsenal-24.jpg`
 2. Copiez-la dans `images/produits/`
@@ -220,7 +265,7 @@ Ouvrez `data/config.json` avec le Bloc-Notes.
 
 ---
 
-## 5. Ajouter des avis clients
+## 6. Ajouter des avis clients
 
 Les avis clients restent dans `data/config.json` (car ils contiennent des photos).
 Trouvez la section `avis_clients` et ajoutez un bloc :
@@ -238,7 +283,7 @@ Si vous n'avez pas de photo client, mettez `"photo": ""`.
 
 ---
 
-## 6. Publier les changements sur GitHub Pages
+## 7. Publier les changements sur GitHub Pages
 
 ### Publier une mise à jour
 

@@ -1,0 +1,36 @@
+{
+  "entreprise": {
+    "nom": "FC Maillot",
+    "slogan": "Maillots de foot à prix imbattables",
+    "sous_slogan": "Qualité Pro • Livraison Rapide • Paiement Sécurisé",
+    "email": "contact@fcmaillot.fr",
+    "description": "Votre spécialiste en maillots de football authentiques et de qualité premium."
+  },
+  "hero": {
+    "titre": "MAILLOTS DE FOOT À PRIX IMBATTABLES",
+    "texte": "Qualité Pro • Livraison Rapide • Paiement Sécurisé",
+    "image_fond": "images/hero-bg.jpg"
+  },
+  "reseaux": {
+    "whatsapp": {
+      "numero": "33612345678",
+      "message_defaut": "Bonjour, je veux commander un maillot !"
+    },
+    "snapchat": {
+      "profil": "fcmaillot"
+    },
+    "instagram": {
+      "profil": "fcmaillot"
+    },
+    "tiktok": {
+      "profil": "@fcmaillot"
+    }
+  },
+  "avis_clients": [],
+  "couleurs": {
+    "accent_principal": "#f5a623",
+    "accent_secondaire": "#25D366",
+    "fond": "#0d0d0d",
+    "fond_carte": "#1a1a1a"
+  }
+}

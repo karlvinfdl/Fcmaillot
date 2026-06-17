@@ -1,0 +1,93 @@
+[
+  {
+    "id": "paris-24",
+    "nom": "Maillot Paris 24",
+    "prix": 35,
+    "prix_affiche": "35€",
+    "image": "images/produits/paris-24.jpg",
+    "images_galerie": [
+      "images/produits/paris-24.jpg",
+      "images/produits/paris-24-dos.jpg"
+    ],
+    "description": "Découvrez le maillot Paris édition 2024, avec son design inspiré du club de la capitale. Ce maillot est fabriqué dans un tissu respirant et de haute qualité, idéal pour afficher vos couleurs sur et en dehors du terrain.",
+    "tailles": ["S", "M", "L", "XL"],
+    "categorie": "clubs-francais",
+    "disponible": true,
+    "populaire": true
+  },
+  {
+    "id": "barca-24",
+    "nom": "Maillot Barca 24",
+    "prix": 35,
+    "prix_affiche": "35€",
+    "image": "images/produits/barca-24.jpg",
+    "images_galerie": [
+      "images/produits/barca-24.jpg"
+    ],
+    "description": "Le maillot iconique du FC Barcelone saison 2024, avec ses couleurs bleu et rouge emblématiques. Tissu haute performance, coupe moderne.",
+    "tailles": ["S", "M", "L", "XL"],
+    "categorie": "clubs-espagnols",
+    "disponible": true,
+    "populaire": true
+  },
+  {
+    "id": "blanc-edition",
+    "nom": "Maillot Blanc Edition",
+    "prix": 40,
+    "prix_affiche": "40€",
+    "image": "images/produits/blanc-edition.jpg",
+    "images_galerie": [
+      "images/produits/blanc-edition.jpg"
+    ],
+    "description": "L'édition blanche exclusive, design épuré et élégant. Parfait pour un look sobre et stylé. Tissu respirant premium.",
+    "tailles": ["S", "M", "L", "XL"],
+    "categorie": "editions-speciales",
+    "disponible": true,
+    "populaire": true
+  },
+  {
+    "id": "vert-24",
+    "nom": "Maillot Vert 24",
+    "prix": 30,
+    "prix_affiche": "30€",
+    "image": "images/produits/vert-24.jpg",
+    "images_galerie": [
+      "images/produits/vert-24.jpg"
+    ],
+    "description": "Maillot vert saison 2024, coloris vibrant et design moderne. Fabriqué en tissu léger et respirant, idéal pour le terrain.",
+    "tailles": ["S", "M", "L", "XL"],
+    "categorie": "editions-speciales",
+    "disponible": true,
+    "populaire": true
+  },
+  {
+    "id": "real-24",
+    "nom": "Maillot Real Madrid 24",
+    "prix": 35,
+    "prix_affiche": "35€",
+    "image": "images/produits/real-24.jpg",
+    "images_galerie": [
+      "images/produits/real-24.jpg"
+    ],
+    "description": "Le légendaire maillot blanc du Real Madrid saison 2024. Qualité premium, coupe moderne et tissu haute performance.",
+    "tailles": ["S", "M", "L", "XL"],
+    "categorie": "clubs-espagnols",
+    "disponible": true,
+    "populaire": false
+  },
+  {
+    "id": "manchester-24",
+    "nom": "Maillot Manchester 24",
+    "prix": 35,
+    "prix_affiche": "35€",
+    "image": "images/produits/manchester-24.jpg",
+    "images_galerie": [
+      "images/produits/manchester-24.jpg"
+    ],
+    "description": "Maillot rouge emblématique du Manchester United saison 2024. Design classique revisité, tissu technique respirant.",
+    "tailles": ["S", "M", "L", "XL"],
+    "categorie": "clubs-anglais",
+    "disponible": true,
+    "populaire": false
+  }
+]

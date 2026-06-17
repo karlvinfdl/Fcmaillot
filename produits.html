@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos Maillots – FC Maillot</title>
+  <meta name="description" content="Catalogue complet de maillots de football. Qualité premium, prix imbattables.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+
+  <div class="bandeau"><i class="fa-solid fa-truck-fast"></i> Livraison rapide 24/48h – Commandez maintenant via WhatsApp !</div>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <img src="images/logo.png" alt="FC Maillot" class="navbar-logo-img">
+    </a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="produits.html">Nos Maillots</a></li>
+      <li><a href="index.html#avis">Avis Clients</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="#" data-config="lien-snapchat" class="btn-snapchat-nav">Snapchat app</a></li>
+    </ul>
+  </nav>
+
+  <!-- EN-TÊTE PAGE -->
+  <div style="background:#111; padding: 2.5rem 1.5rem; text-align:center; border-bottom: 1px solid #2a2a2a;">
+    <h1 style="font-size:clamp(1.5rem,4vw,2.5rem); font-weight:900; text-transform:uppercase; letter-spacing:2px;">
+      NOS MAILLOTS
+    </h1>
+    <p style="color:#aaa; margin-top:0.5rem">Tous nos modèles disponibles</p>
+  </div>
+
+  <section class="section">
+
+    <!-- FILTRES PAR CATÉGORIE -->
+    <div class="filtres" id="filtres">
+      <button class="filtre-btn actif" data-categorie="tous">Tous</button>
+      <!-- Les catégories sont générées dynamiquement par JS -->
+    </div>
+
+    <!-- BARRE DE RECHERCHE -->
+    <div style="max-width:400px; margin:0 auto 2rem;">
+      <input
+        type="text"
+        id="recherche"
+        placeholder="Rechercher un maillot..."
+        style="
+          width:100%;
+          padding:12px 16px;
+          border-radius:8px;
+          border:1px solid #2a2a2a;
+          background:#1a1a1a;
+          color:#fff;
+          font-size:0.95rem;
+          outline:none;
+        "
+      >
+    </div>
+
+    <!-- GRILLE PRODUITS -->
+    <div class="grille-produits" id="grille-catalogue">
+      <div class="loader"><div class="spinner"></div></div>
+    </div>
+
+    <!-- BOUTON COMMANDER -->
+    <div style="text-align:center; margin-top:3rem; padding:2rem; background:#1a1a1a; border-radius:10px; border:1px solid #2a2a2a;">
+      <p style="margin-bottom:1rem; font-size:1.1rem; font-weight:700;">Vous avez trouvé votre maillot ?</p>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <a href="#" data-config="lien-whatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> Commander via WhatsApp
+        </a>
+        <a href="#" data-config="lien-snapchat" class="btn btn-snapchat" target="_blank" rel="noopener">
+          <i class="fa-brands fa-snapchat"></i> Commander via Snapchat
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="images/logo.png" alt="FC Maillot" style="height:50px; width:auto;"></div>
+        <p class="footer-desc" data-config="slogan">Maillots de foot à prix imbattables</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="produits.html">Nos Maillots</a></li>
+          <li><a href="index.html#avis">Avis Clients</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Commande</h4>
+        <ul>
+          <li><a href="#" data-config="lien-whatsapp" target="_blank">WhatsApp</a></li>
+          <li><a href="#" data-config="lien-snapchat" target="_blank">Snapchat</a></li>
+          <li><a href="#" data-config="lien-instagram" target="_blank">Instagram</a></li>
+          <li><a href="#" data-config="lien-tiktok" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bas">
+      <p>© 2024 <span data-config="nom">FC Maillot</span>. Tous droits réservés.</p>
+      <div class="footer-paiements">
+        <span class="badge-paiement">CB</span>
+        <span class="badge-paiement">VISA</span>
+        <span class="badge-paiement">PayPal</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/produits.js"></script>
+  <script>
+    /* Libellés lisibles pour les catégories */
+    const labelsCategories = {
+      'clubs-francais': 'Clubs Français',
+      'clubs-espagnols': 'Clubs Espagnols',
+      'clubs-anglais': 'Clubs Anglais',
+      'editions-speciales': 'Éditions Spéciales',
+      'selections': 'Sélections Nationales'
+    };
+
+    let produitsAffichés = [];
+
+    function filtrerEtAfficher(categorie, recherche) {
+      let filtres = TOUS_PRODUITS.filter(p => p.disponible !== false);
+
+      if (categorie && categorie !== 'tous') {
+        filtres = filtres.filter(p => p.categorie === categorie);
+      }
+
+      if (recherche) {
+        const q = recherche.toLowerCase();
+        filtres = filtres.filter(p =>
+          p.nom.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q)
+        );
+      }
+
+      afficherProduits(filtres, 'grille-catalogue');
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const produits = await chargerProduits();
+        await chargerConfig().catch(() => {});
+
+        /* Générer les boutons de filtre à partir des catégories existantes */
+        const categories = [...new Set(produits.map(p => p.categorie))];
+        const conteneurFiltres = document.getElementById('filtres');
+        categories.forEach(cat => {
+          const btn = document.createElement('button');
+          btn.className = 'filtre-btn';
+          btn.dataset.categorie = cat;
+          btn.textContent = labelsCategories[cat] || cat;
+          conteneurFiltres.appendChild(btn);
+        });
+
+        /* Afficher tous les produits au départ */
+        filtrerEtAfficher('tous', '');
+
+        /* Gestion des filtres */
+        let categorieActive = 'tous';
+        conteneurFiltres.addEventListener('click', e => {
+          if (!e.target.classList.contains('filtre-btn')) return;
+          conteneurFiltres.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
+          e.target.classList.add('actif');
+          categorieActive = e.target.dataset.categorie;
+          filtrerEtAfficher(categorieActive, document.getElementById('recherche').value);
+        });
+
+        /* Gestion de la recherche */
+        document.getElementById('recherche').addEventListener('input', e => {
+          filtrerEtAfficher(categorieActive, e.target.value);
+        });
+
+      } catch (e) {
+        document.getElementById('grille-catalogue').innerHTML =
+          '<p class="message-vide">Impossible de charger les produits. Vérifiez votre connexion.</p>';
+      }
+    });
+  </script>
+</body>
+</html>

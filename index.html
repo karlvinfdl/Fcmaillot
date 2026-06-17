@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FC Maillot – Maillots de foot à prix imbattables</title>
+  <meta name="description" content="Achetez vos maillots de football de qualité premium à prix imbattables. Livraison rapide 24/48h.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+
+  <!-- BANDEAU PROMO -->
+  <div class="bandeau"><i class="fa-solid fa-truck-fast"></i> Livraison rapide 24/48h – Commandez maintenant via WhatsApp !</div>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <img src="images/logo.png" alt="FC Maillot" class="navbar-logo-img">
+    </a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="produits.html">Nos Maillots</a></li>
+      <li><a href="index.html#avis">Avis Clients</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="#" data-config="lien-snapchat" class="btn-snapchat-nav">Snapchat app</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="images/hero-bg.png" alt="Maillots de football" onerror="this.style.display='none'">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 data-config="hero-titre">MAILLOTS DE FOOT À PRIX IMBATTABLES</h1>
+      <p data-config="hero-texte">Qualité Pro • Livraison Rapide • Paiement Sécurisé</p>
+      <div class="hero-buttons">
+        <a href="#" data-config="lien-whatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> Commander sur WhatsApp
+        </a>
+        <a href="#" data-config="lien-snapchat" class="btn btn-snapchat" target="_blank" rel="noopener">
+          <i class="fa-brands fa-snapchat"></i> Commander sur Snapchat
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVIS CLIENTS -->
+  <section class="section-avis" id="avis">
+    <div class="section-inner">
+      <h2 class="section-titre" style="text-align:center">AVIS DE NOS CLIENTS</h2>
+      <p class="section-sous-titre">Ils nous font confiance !</p>
+      <div class="grille-avis" id="grille-avis">
+        <div class="loader"><div class="spinner"></div></div>
+      </div>
+      <div class="avis-photos" id="avis-photos"></div>
+      <!-- Bouton laisser un avis (masqué si FORM_AVIS_URL est vide) -->
+      <div style="text-align:center; margin-top:2rem;">
+        <button id="btn-laisser-avis" class="btn btn-accent" onclick="ouvrirModalAvis()" style="display:none;">
+          <i class="fa-solid fa-pen-to-square"></i> Laisser un avis
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL FORMULAIRE D'AVIS -->
+  <div class="modal-overlay" id="modal-avis">
+    <div class="modal-boite">
+      <div class="modal-entete">
+        <span class="modal-titre"><i class="fa-solid fa-star"></i> Laisser un avis</span>
+        <button class="modal-fermer" onclick="fermerModalAvis()" aria-label="Fermer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <iframe id="iframe-form-avis" src="" frameborder="0" allowfullscreen></iframe>
+      <p class="modal-note">Votre avis sera visible sur le site après validation.</p>
+    </div>
+  </div>
+
+  <!-- PRODUITS POPULAIRES -->
+  <section class="section">
+    <h2 class="section-titre">NOS MAILLOTS POPULAIRES</h2>
+    <p class="section-sous-titre">Découvrez nos derniers modèles</p>
+    <div class="grille-produits" id="grille-populaires">
+      <div class="loader"><div class="spinner"></div></div>
+    </div>
+    <div style="text-align:center; margin-top:2.5rem">
+      <a href="produits.html" class="btn btn-outline">Voir tous les maillots →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="images/logo.png" alt="FC Maillot" style="height:50px; width:auto;"></div>
+        <p class="footer-desc" data-config="slogan">Maillots de foot à prix imbattables</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="produits.html">Nos Maillots</a></li>
+          <li><a href="index.html#avis">Avis Clients</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Commande</h4>
+        <ul>
+          <li><a href="#" data-config="lien-whatsapp" target="_blank">WhatsApp</a></li>
+          <li><a href="#" data-config="lien-snapchat" target="_blank">Snapchat</a></li>
+          <li><a href="#" data-config="lien-instagram" target="_blank">Instagram</a></li>
+          <li><a href="#" data-config="lien-tiktok" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bas">
+      <p>© 2024 <span data-config="nom">FC Maillot</span>. Tous droits réservés.</p>
+      <div class="footer-paiements">
+        <span class="badge-paiement">CB</span>
+        <span class="badge-paiement">VISA</span>
+        <span class="badge-paiement">PayPal</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/produits.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      /* Charger config et produits en parallèle */
+      const [cfg] = await Promise.allSettled([chargerConfig(), chargerProduits()]);
+
+      /* Avis clients */
+      try {
+        const grilleAvis = document.getElementById('grille-avis');
+        if (CONFIG && CONFIG.avis_clients) {
+          grilleAvis.innerHTML = CONFIG.avis_clients.map(a => `
+            <div class="carte-avis">
+              <div class="avis-header">
+                ${a.photo
+                  ? `<img src="${a.photo}" alt="${a.nom}" class="avis-avatar" onerror="this.style.display='none'">`
+                  : `<div class="avis-avatar-placeholder">${a.nom.charAt(0)}</div>`
+                }
+                <div>
+                  <div class="avis-nom">${a.nom}</div>
+                  <div class="avis-sous-titre">Acheteur vérifié</div>
+                </div>
+              </div>
+              <div class="avis-etoiles">${etoiles(a.note || 5)}</div>
+              <p class="avis-texte">"${a.texte}"</p>
+            </div>
+          `).join('');
+        } else {
+          grilleAvis.innerHTML = '';
+        }
+      } catch (e) {
+        document.getElementById('grille-avis').innerHTML = '';
+      }
+
+      /* Produits populaires */
+      try {
+        const populaires = TOUS_PRODUITS.filter(p => p.populaire && p.disponible !== false);
+        afficherProduits(populaires, 'grille-populaires');
+      } catch (e) {
+        document.getElementById('grille-populaires').innerHTML =
+          '<p class="message-vide">Impossible de charger les produits.</p>';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – FC Maillot</title>
+  <meta name="description" content="Contactez FC Maillot pour commander vos maillots de football.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+
+  <div class="bandeau"><i class="fa-solid fa-truck-fast"></i> Livraison rapide 24/48h – Commandez maintenant via WhatsApp !</div>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <img src="images/logo.png" alt="FC Maillot" class="navbar-logo-img">
+    </a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="produits.html">Nos Maillots</a></li>
+      <li><a href="index.html#avis">Avis Clients</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="#" data-config="lien-snapchat" class="btn-snapchat-nav">Snapchat app</a></li>
+    </ul>
+  </nav>
+
+  <!-- EN-TÊTE -->
+  <div style="background:#111; padding: 2.5rem 1.5rem; text-align:center; border-bottom: 1px solid #2a2a2a;">
+    <h1 style="font-size:clamp(1.5rem,4vw,2.5rem); font-weight:900; text-transform:uppercase; letter-spacing:2px;">
+      NOUS CONTACTER
+    </h1>
+    <p style="color:#aaa; margin-top:0.5rem">Commandez ou posez vos questions</p>
+  </div>
+
+  <div class="contact-grid">
+    <!-- LIENS DE CONTACT -->
+    <div class="contact-info">
+      <h2>Passez votre commande</h2>
+
+      <a href="#" data-config="lien-whatsapp" target="_blank" rel="noopener" class="contact-lien">
+        <div class="contact-lien-icone icone-whatsapp"><i class="fa-brands fa-whatsapp"></i></div>
+        <div class="contact-lien-texte">
+          <small>Commande rapide</small>
+          <strong>Commander via WhatsApp</strong>
+        </div>
+      </a>
+
+      <a href="#" data-config="lien-snapchat" target="_blank" rel="noopener" class="contact-lien">
+        <div class="contact-lien-icone icone-snapchat"><i class="fa-brands fa-snapchat"></i></div>
+        <div class="contact-lien-texte">
+          <small>Commande & questions</small>
+          <strong>Commander via Snapchat</strong>
+        </div>
+      </a>
+
+      <a href="#" data-config="lien-instagram" target="_blank" rel="noopener" class="contact-lien">
+        <div class="contact-lien-icone icone-instagram"><i class="fa-brands fa-instagram"></i></div>
+        <div class="contact-lien-texte">
+          <small>Suivez-nous</small>
+          <strong>Voir notre Instagram</strong>
+        </div>
+      </a>
+
+      <a href="#" data-config="lien-tiktok" target="_blank" rel="noopener" class="contact-lien">
+        <div class="contact-lien-icone icone-tiktok"><i class="fa-brands fa-tiktok"></i></div>
+        <div class="contact-lien-texte">
+          <small>Nos vidéos</small>
+          <strong>Voir notre TikTok</strong>
+        </div>
+      </a>
+
+      <a href="#" id="lien-email" class="contact-lien">
+        <div class="contact-lien-icone icone-email"><i class="fa-solid fa-envelope"></i></div>
+        <div class="contact-lien-texte">
+          <small>Pour toute demande</small>
+          <strong id="texte-email">contact@fcmaillot.fr</strong>
+        </div>
+      </a>
+    </div>
+
+    <!-- INFOS COMMANDE -->
+    <div>
+      <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:1.5rem;">Comment commander ?</h2>
+
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:10px; padding:1.2rem; display:flex; gap:1rem; align-items:flex-start;">
+          <div style="background:var(--accent); color:#000; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0;">1</div>
+          <div>
+            <strong>Choisissez votre maillot</strong>
+            <p style="color:#aaa; font-size:0.9rem; margin-top:4px;">Parcourez notre catalogue et notez le nom du maillot et la taille souhaitée.</p>
+          </div>
+        </div>
+
+        <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:10px; padding:1.2rem; display:flex; gap:1rem; align-items:flex-start;">
+          <div style="background:var(--accent); color:#000; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0;">2</div>
+          <div>
+            <strong>Contactez-nous</strong>
+            <p style="color:#aaa; font-size:0.9rem; margin-top:4px;">Envoyez-nous un message WhatsApp ou Snapchat avec votre commande.</p>
+          </div>
+        </div>
+
+        <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:10px; padding:1.2rem; display:flex; gap:1rem; align-items:flex-start;">
+          <div style="background:var(--accent); color:#000; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0;">3</div>
+          <div>
+            <strong>Confirmez & payez</strong>
+            <p style="color:#aaa; font-size:0.9rem; margin-top:4px;">Nous vous envoyons les détails de paiement. Paiement sécurisé.</p>
+          </div>
+        </div>
+
+        <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:10px; padding:1.2rem; display:flex; gap:1rem; align-items:flex-start;">
+          <div style="background:var(--accent2); color:#fff; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0;">✓</div>
+          <div>
+            <strong>Livraison en 24/48h</strong>
+            <p style="color:#aaa; font-size:0.9rem; margin-top:4px;">Votre maillot est expédié rapidement et vous recevez un numéro de suivi.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem; text-align:center;">
+        <a href="produits.html" class="btn btn-accent" style="display:inline-flex;">
+          Voir tous les maillots →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="images/logo.png" alt="FC Maillot" style="height:50px; width:auto;"></div>
+        <p class="footer-desc" data-config="slogan">Maillots de foot à prix imbattables</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="produits.html">Nos Maillots</a></li>
+          <li><a href="index.html#avis">Avis Clients</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Commande</h4>
+        <ul>
+          <li><a href="#" data-config="lien-whatsapp" target="_blank">WhatsApp</a></li>
+          <li><a href="#" data-config="lien-snapchat" target="_blank">Snapchat</a></li>
+          <li><a href="#" data-config="lien-instagram" target="_blank">Instagram</a></li>
+          <li><a href="#" data-config="lien-tiktok" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bas">
+      <p>© 2024 <span data-config="nom">FC Maillot</span>. Tous droits réservés.</p>
+      <div class="footer-paiements">
+        <span class="badge-paiement">CB</span>
+        <span class="badge-paiement">VISA</span>
+        <span class="badge-paiement">PayPal</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await chargerConfig().catch(() => {});
+      if (CONFIG && CONFIG.entreprise.email) {
+        const lien = document.getElementById('lien-email');
+        const texte = document.getElementById('texte-email');
+        if (lien) lien.href = `mailto:${CONFIG.entreprise.email}`;
+        if (texte) texte.textContent = CONFIG.entreprise.email;
+      }
+    });
+  </script>
+</body>
+</html>

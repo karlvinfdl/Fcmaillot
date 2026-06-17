@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détail Maillot – FC Maillot</title>
+  <meta name="description" content="Fiche détail du maillot de football.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+  <style>
+    .galerie-thumbs {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .thumb {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 2px solid var(--bordure);
+      cursor: pointer;
+      transition: border-color var(--transition);
+    }
+    .thumb:hover, .thumb.actif { border-color: var(--accent); }
+
+    .commande-bloc {
+      background: var(--fond-carte);
+      border: 1px solid var(--bordure);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bandeau"><i class="fa-solid fa-truck-fast"></i> Livraison rapide 24/48h – Commandez maintenant via WhatsApp !</div>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <img src="images/logo.png" alt="FC Maillot" class="navbar-logo-img">
+    </a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="produits.html">Nos Maillots</a></li>
+      <li><a href="index.html#avis">Avis Clients</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="#" data-config="lien-snapchat" class="btn-snapchat-nav">Snapchat app</a></li>
+    </ul>
+  </nav>
+
+  <!-- FIL D'ARIANE -->
+  <div style="padding:1rem 1.5rem; max-width:1100px; margin:0 auto; color:#aaa; font-size:0.85rem;">
+    <a href="index.html" style="color:#aaa;">Accueil</a>
+    <span style="margin:0 0.5rem;">›</span>
+    <a href="produits.html" style="color:#aaa;">Nos Maillots</a>
+    <span style="margin:0 0.5rem;">›</span>
+    <span id="breadcrumb-nom" style="color:#fff;">...</span>
+  </div>
+
+  <!-- CONTENU PRINCIPAL -->
+  <div id="contenu-produit">
+    <div class="loader" style="padding:5rem 0"><div class="spinner"></div></div>
+  </div>
+
+  <!-- MAILLOTS SIMILAIRES -->
+  <section class="section-similaires">
+    <h2 class="section-titre" style="margin-bottom:1.5rem">MAILLOTS SIMILAIRES</h2>
+    <div class="grille-produits" id="grille-similaires">
+      <div class="loader"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="images/logo.png" alt="FC Maillot" style="height:50px; width:auto;"></div>
+        <p class="footer-desc" data-config="slogan">Maillots de foot à prix imbattables</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="produits.html">Nos Maillots</a></li>
+          <li><a href="index.html#avis">Avis Clients</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Commande</h4>
+        <ul>
+          <li><a href="#" data-config="lien-whatsapp" target="_blank">WhatsApp</a></li>
+          <li><a href="#" data-config="lien-snapchat" target="_blank">Snapchat</a></li>
+          <li><a href="#" data-config="lien-instagram" target="_blank">Instagram</a></li>
+          <li><a href="#" data-config="lien-tiktok" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bas">
+      <p>© 2024 <span data-config="nom">FC Maillot</span>. Tous droits réservés.</p>
+      <div class="footer-paiements">
+        <span class="badge-paiement">CB</span>
+        <span class="badge-paiement">VISA</span>
+        <span class="badge-paiement">PayPal</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/produits.js"></script>
+  <script>
+    /* Lit le paramètre ?id= dans l'URL */
+    function getIdProduit() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    let tailleSélectionnée = null;
+
+    function afficherDetailProduit(produit) {
+      document.title = `${produit.nom} – FC Maillot`;
+      document.getElementById('breadcrumb-nom').textContent = produit.nom;
+      document.querySelector('meta[name="description"]').content =
+        `${produit.nom} – ${produit.prix_affiche} – ${produit.description.substring(0, 100)}`;
+
+      const images = (produit.images_galerie && produit.images_galerie.length > 0
+        ? produit.images_galerie
+        : [produit.image]
+      ).map(convertirUrlImage);
+
+      const taillesHtml = produit.tailles.map(t => `
+        <button class="taille-btn" data-taille="${t}">${t}</button>
+      `).join('');
+
+      const thumbsHtml = images.length > 1
+        ? `<div class="galerie-thumbs">
+            ${images.map((src, i) => `
+              <img src="${src}" alt="${produit.nom} vue ${i+1}"
+                   class="thumb ${i === 0 ? 'actif' : ''}"
+                   data-src="${src}"
+                   onerror="this.style.display='none'">
+            `).join('')}
+           </div>`
+        : '';
+
+      document.getElementById('contenu-produit').innerHTML = `
+        <div class="detail-produit">
+          <!-- COLONNE IMAGE -->
+          <div>
+            <div class="detail-image-principale">
+              <img id="img-principale" src="${images[0]}" alt="${produit.nom}"
+                   onerror="this.src='images/placeholder.svg'">
+            </div>
+            ${thumbsHtml}
+          </div>
+
+          <!-- COLONNE INFO -->
+          <div class="detail-info">
+            <h1>${produit.nom}</h1>
+            <p class="edition">Édition 2024</p>
+            <div class="detail-prix">${produit.prix_affiche}</div>
+
+            <div class="commande-bloc">
+              <ul class="detail-features">
+                <li>Maillot ${produit.nom}</li>
+                <li>Qualité haut de gamme</li>
+                <li>Tissu respirant et léger</li>
+                <li>Tailles disponibles : ${produit.tailles.join(', ')}</li>
+                <li>Livraison rapide en 24/48h</li>
+              </ul>
+
+              <div class="detail-tailles-label">Choisir une taille</div>
+              <div class="detail-tailles" id="boutons-tailles">
+                ${taillesHtml}
+              </div>
+
+              <div class="detail-commande">
+                <a
+                  id="btn-whatsapp-produit"
+                  href="${urlWhatsApp(produit.nom)}"
+                  class="btn btn-whatsapp"
+                  target="_blank"
+                  rel="noopener"
+                  style="width:100%; justify-content:center; font-size:1.05rem;"
+                >
+                  <i class="fa-brands fa-whatsapp"></i> Commander via WhatsApp
+                </a>
+                <div style="text-align:center; margin-top:0.3rem">
+                  <a href="${urlSnapchat()}" class="lien-snapchat-detail" target="_blank" rel="noopener">
+                    <i class="fa-brands fa-snapchat"></i> Ou commander via Snapchat
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="detail-description">
+          <h2>DESCRIPTION</h2>
+          <p>${produit.description}</p>
+          <p>Tailles disponibles : ${produit.tailles.join(', ')}. &nbsp; Livraison rapide en 24 à 48h.</p>
+        </div>
+      `;
+
+      /* Galerie : clic sur miniature change l'image principale */
+      document.querySelectorAll('.thumb').forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          document.getElementById('img-principale').src = thumb.dataset.src;
+          document.querySelectorAll('.thumb').forEach(t => t.classList.remove('actif'));
+          thumb.classList.add('actif');
+        });
+      });
+
+      /* Sélection de taille */
+      document.getElementById('boutons-tailles').addEventListener('click', e => {
+        const btn = e.target.closest('.taille-btn');
+        if (!btn) return;
+        document.querySelectorAll('.taille-btn').forEach(b => b.classList.remove('selectionne'));
+        btn.classList.add('selectionne');
+        tailleSélectionnée = btn.dataset.taille;
+
+        /* Met à jour le lien WhatsApp avec la taille */
+        const msg = `Bonjour, je veux commander : ${produit.nom} – Taille ${tailleSélectionnée}`;
+        const num = CONFIG ? CONFIG.reseaux.whatsapp.numero : '';
+        document.getElementById('btn-whatsapp-produit').href =
+          `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const id = getIdProduit();
+
+      if (!id) {
+        document.getElementById('contenu-produit').innerHTML =
+          '<p class="message-vide" style="padding:4rem 1rem">Produit introuvable. <a href="produits.html" style="color:var(--accent)">Voir le catalogue →</a></p>';
+        return;
+      }
+
+      try {
+        const [produits] = await Promise.all([chargerProduits(), chargerConfig().catch(() => {})]);
+        const produit = produits.find(p => p.id === id);
+
+        if (!produit) {
+          document.getElementById('contenu-produit').innerHTML =
+            '<p class="message-vide" style="padding:4rem 1rem">Produit introuvable. <a href="produits.html" style="color:var(--accent)">Voir le catalogue →</a></p>';
+          return;
+        }
+
+        afficherDetailProduit(produit);
+
+        /* Maillots similaires : même catégorie, exclu le produit courant */
+        const similaires = produits
+          .filter(p => p.id !== id && p.categorie === produit.categorie && p.disponible !== false)
+          .slice(0, 4);
+
+        /* Si pas assez dans la même catégorie, on complète avec d'autres */
+        const autresSimilaires = similaires.length < 4
+          ? similaires.concat(
+              produits
+                .filter(p => p.id !== id && p.categorie !== produit.categorie && p.disponible !== false)
+                .slice(0, 4 - similaires.length)
+            )
+          : similaires;
+
+        afficherProduits(autresSimilaires, 'grille-similaires');
+
+      } catch (e) {
+        document.getElementById('contenu-produit').innerHTML =
+          '<p class="message-vide" style="padding:4rem 1rem">Erreur de chargement. <a href="produits.html" style="color:var(--accent)">Retour au catalogue</a></p>';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -51,12 +51,14 @@ function chargerConfig() {
       /* Normalise les avis reçus depuis Google Forms / Google Sheets */
       const avisSheets = avisData
         .map(a => ({
-          nom:   String(a.nom   || 'Anonyme').trim(),
-          note:  Math.min(5, Math.max(1, Number(a.note) || 5)),
-          texte: String(a.texte || '').trim(),
-          photo: String(a.photo || '').trim()
+          nom:    String(a.nom    || 'Anonyme').trim(),
+          note:   Math.min(5, Math.max(1, Number(a.note) || 5)),
+          texte:  String(a.texte  || '').trim(),
+          photo:  String(a.photo  || '').trim(),
+          valide: String(a.valide || '').toUpperCase().trim()
         }))
-        .filter(a => a.texte); /* n'affiche que les avis avec un commentaire */
+        /* Seules les lignes où valide = "TRUE" sont affichées (modération manuelle) */
+        .filter(a => a.texte && a.valide === 'TRUE');
 
       CONFIG = {
         entreprise: {

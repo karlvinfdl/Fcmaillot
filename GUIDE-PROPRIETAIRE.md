@@ -294,8 +294,10 @@ Le bouton "Laisser un avis" s'ouvre en fenêtre sans quitter la page.
 5. Google va créer automatiquement un onglet **"Réponses au formulaire 1"**
 6. Renommez cet onglet en **`Avis`** (double-cliquez sur l'onglet en bas)
 
-Les colonnes créées seront : `Horodateur | nom | note | texte`
-Le site lira automatiquement cet onglet.
+Les colonnes créées automatiquement seront : `Horodateur | nom | note | texte`
+
+Ajoutez ensuite manuellement une 5ème colonne intitulée exactement **`valide`** (en minuscules).
+C'est cette colonne qui contrôle si l'avis s'affiche ou non sur le site.
 
 ### Étape 3 — Récupérer le lien du formulaire
 
@@ -323,18 +325,24 @@ const FORM_AVIS_URL = 'https://forms.gle/AbCd1234';
 
 Le bouton **"Laisser un avis"** apparaîtra alors automatiquement sur la page d'accueil.
 
-### Modérer les avis
+### Modérer les avis (approuver / refuser)
 
-- Ouvrez l'onglet **"Avis"** dans votre Google Sheets
-- Pour **supprimer un avis** : sélectionnez la ligne et supprimez-la
-- Pour **masquer un avis** sans le supprimer : effacez juste le contenu de la colonne `texte`
-- Les changements s'appliquent sur le site en quelques minutes
+Quand un client soumet un avis, une nouvelle ligne apparaît dans l'onglet **"Avis"** avec la colonne `valide` vide.
+**L'avis n'est pas visible sur le site tant que vous n'avez pas approuvé la ligne.**
 
-### Avis manuels (sans Google Forms)
+| Action | Ce qu'il faut faire |
+|---|---|
+| Approuver un avis | Tapez `TRUE` dans la colonne `valide` de la ligne |
+| Refuser / masquer | Laissez `valide` vide, ou tapez `FALSE` |
+| Supprimer définitivement | Supprimez la ligne entière |
 
-Si vous voulez ajouter un avis manuellement (ex : un client vous a écrit sur WhatsApp) :
+Les changements s'appliquent sur le site en quelques minutes.
+
+### Avis manuels (client qui vous écrit sur WhatsApp, etc.)
+
 - Ouvrez l'onglet **"Avis"** dans Google Sheets
 - Ajoutez une ligne : laissez `Horodateur` vide, remplissez `nom`, `note` (1-5), `texte`
+- Tapez **`TRUE`** dans la colonne `valide` pour que l'avis s'affiche
 
 ---
 

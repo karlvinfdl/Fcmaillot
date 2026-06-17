@@ -75,7 +75,7 @@ function htmlCarteProduit(produit) {
     .join('');
 
   return `
-    <div class="carte-produit" data-id="${produit.id}" data-categorie="${produit.categorie}">
+    <div class="carte-produit reveal" data-id="${produit.id}" data-categorie="${produit.categorie}">
       <div class="carte-produit-image">
         ${badgePopulaire}
         <img src="${imgSrc}" alt="${produit.nom}" loading="lazy"
@@ -108,4 +108,5 @@ function afficherProduits(produits, conteneurId) {
   }
 
   conteneur.innerHTML = disponibles.map(htmlCarteProduit).join('');
+  if (typeof initScrollAnimations === 'function') initScrollAnimations();
 }

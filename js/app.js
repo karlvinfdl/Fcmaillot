@@ -208,6 +208,56 @@ function injecterConfig() {
   });
 }
 
+function injecterBottomNav() {
+  const page = window.location.pathname.split('/').pop() || 'index.html';
+  const nav = document.createElement('nav');
+  nav.className = 'bottom-nav';
+  nav.innerHTML = `
+    <a href="index.html" class="bottom-nav-item ${page === 'index.html' ? 'active' : ''}">
+      <i class="fa-solid fa-house"></i><span>Accueil</span>
+    </a>
+    <a href="produits.html" class="bottom-nav-item ${page === 'produits.html' ? 'active' : ''}">
+      <i class="fa-solid fa-shirt"></i><span>Maillots</span>
+    </a>
+    <a href="index.html#avis" class="bottom-nav-item">
+      <i class="fa-solid fa-star"></i><span>Avis</span>
+    </a>
+    <a href="contact.html" class="bottom-nav-item ${page === 'contact.html' ? 'active' : ''}">
+      <i class="fa-solid fa-envelope"></i><span>Contact</span>
+    </a>
+    <a href="#" data-config="lien-whatsapp" class="bottom-nav-item bottom-nav-wa" target="_blank" rel="noopener">
+      <i class="fa-brands fa-whatsapp"></i><span>Commander</span>
+    </a>
+  `;
+  document.body.appendChild(nav);
+}
+
+let _scrollObserver = null;
+
+function initScrollAnimations() {
+  if (typeof IntersectionObserver === 'undefined') return;
+
+  document.querySelectorAll('.section-titre, .section-sous-titre, .carte-avis, .contact-lien, .hero-content').forEach(el => {
+    if (!el.classList.contains('reveal')) el.classList.add('reveal');
+  });
+
+  if (!_scrollObserver) {
+    _scrollObserver = new IntersectionObserver((entries) => {
+      let delay = 0;
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${delay}ms`;
+          entry.target.classList.add('visible');
+          delay += 70;
+          _scrollObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+  }
+
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => _scrollObserver.observe(el));
+}
+
 function initHamburger() {
   const btn   = document.querySelector('.hamburger');
   const liens = document.querySelector('.navbar-links');
@@ -228,6 +278,8 @@ function initHamburger() {
 }
 
 async function initPage() {
+  injecterBottomNav();
+  initHamburger();
   try {
     await chargerConfig();
     injecterConfig();
@@ -235,7 +287,7 @@ async function initPage() {
     console.error('Erreur config :', e.message);
     afficherErreurGlobale(e.message);
   }
-  initHamburger();
+  initScrollAnimations();
 }
 
 document.addEventListener('DOMContentLoaded', initPage);

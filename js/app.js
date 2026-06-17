@@ -212,7 +212,19 @@ function initHamburger() {
   const btn   = document.querySelector('.hamburger');
   const liens = document.querySelector('.navbar-links');
   if (!btn || !liens) return;
-  btn.addEventListener('click', () => liens.classList.toggle('ouvert'));
+
+  btn.addEventListener('click', () => {
+    liens.classList.toggle('ouvert');
+    btn.classList.toggle('actif');
+  });
+
+  /* Ferme le menu quand on clique sur un lien */
+  liens.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      liens.classList.remove('ouvert');
+      btn.classList.remove('actif');
+    });
+  });
 }
 
 async function initPage() {

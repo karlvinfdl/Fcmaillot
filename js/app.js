@@ -138,7 +138,8 @@ document.addEventListener('keydown', e => {
 
 function urlWhatsApp(nomProduit) {
   if (!CONFIG) return '#';
-  const num = CONFIG.reseaux.whatsapp.numero;
+  /* Supprime tout ce qui n'est pas un chiffre (+, espaces, tirets...) */
+  const num = String(CONFIG.reseaux.whatsapp.numero || '').replace(/\D/g, '');
   const msg = nomProduit
     ? `Bonjour, je veux commander : ${nomProduit}`
     : CONFIG.reseaux.whatsapp.message_defaut;

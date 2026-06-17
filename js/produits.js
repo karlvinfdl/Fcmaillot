@@ -9,7 +9,7 @@ function convertirUrlImage(url) {
   if (!url) return 'images/placeholder.svg';
   // Lien de partage Google Drive → lien direct affichable
   const drive = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
-  if (drive) return `https://drive.google.com/uc?export=view&id=${drive[1]}`;
+  if (drive) return `https://drive.usercontent.google.com/download?id=${drive[1]}&export=view`;
   return url;
 }
 

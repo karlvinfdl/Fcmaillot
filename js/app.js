@@ -51,10 +51,10 @@ function chargerConfig() {
       /* Normalise les avis reçus depuis Google Forms / Google Sheets */
       const avisSheets = avisData
         .map(a => ({
-          nom:    String(a.nom    || 'Anonyme').trim(),
-          note:   Math.min(5, Math.max(1, Number(a.note) || 5)),
-          texte:  String(a.texte  || '').trim(),
-          photo:  String(a.photo  || '').trim(),
+          nom:    String(a.nom    || a.Nom    || 'Anonyme').trim(),
+          note:   Math.min(5, Math.max(1, Number(a.note  || a.Note)  || 5)),
+          texte:  String(a.texte  || a.Texte  || '').trim(),
+          photo:  String(a.photo  || a.Photo  || '').trim(),
           valide: String(a.valide || a.Valide || a.VALIDE || '').toUpperCase().trim()
         }))
         /* Seules les lignes où valide = "TRUE" sont affichées (modération manuelle) */

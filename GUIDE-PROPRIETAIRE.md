@@ -162,47 +162,40 @@ Les changements apparaissent sur le site dans les **2-5 minutes** (délai du cac
 
 ## 2. Ajouter une photo de maillot sans passer par GitHub
 
-Si vous gérez vos produits depuis Google Sheets et que vous voulez ajouter une photo
-sans demander à votre développeur, utilisez **imgbb.com** (gratuit, sans compte, fonctionne bien).
+Utilisez **Google Drive** — vous l'avez déjà, et le site convertit automatiquement
+le lien de partage en image. Aucune manipulation technique nécessaire.
 
-> ❌ N'utilisez pas Imgur — il bloque les images intégrées sur des sites externes.
+### Étape 1 : Uploader la photo sur Google Drive
 
-### Étape 1 : Uploader la photo sur imgbb
-
-1. Allez sur **https://imgbb.com**
-2. Cliquez sur **"Démarrer l'envoi"** (ou glissez votre photo directement)
+1. Allez sur **drive.google.com**
+2. Cliquez sur **"+ Nouveau"** → **"Importer un fichier"**
 3. Sélectionnez votre photo de maillot (JPG ou PNG, idéalement carré)
-4. Attendez la fin de l'upload
 
-### Étape 2 : Récupérer le lien direct
+### Étape 2 : Obtenir le lien de partage
 
-1. Une fois l'image uploadée, cliquez dessus pour l'ouvrir
-2. Sous l'image, cherchez la section **"Liens directs"**
-3. Copiez le lien intitulé **"Lien direct"** — il ressemble à :
-   `https://i.ibb.co/AbCd123/nom-de-fichier.jpg`
-   (il doit se terminer par `.jpg` ou `.png`)
+1. Faites un **clic droit** sur la photo dans Drive → **"Obtenir le lien"**
+2. Dans la fenêtre, changez l'accès à **"Tout le monde disposant du lien"**
+3. Cliquez **"Copier le lien"**
+4. Le lien ressemble à :
+   `https://drive.google.com/file/d/1AbCdEfGhIjKlMn/view?usp=sharing`
 
 ### Étape 3 : Coller le lien dans Google Sheets
 
 1. Ouvrez votre Google Sheets, onglet **"Produits"**
-2. Dans la colonne `image` de la ligne du maillot, collez le lien copié
-3. Exemple : `https://i.ibb.co/AbCd123/maillot-paris.jpg`
+2. Dans la colonne `image` de la ligne du maillot, collez le lien tel quel
+3. **Le site se charge de la conversion automatiquement** — pas besoin de modifier le lien
 
-### Étape 4 : Vérifier que ça fonctionne
+### Étape 4 : Vérifier
 
-Le site se met à jour automatiquement (quelques minutes de délai possible).
-Si l'image ne s'affiche pas :
-- Vérifiez que le lien se termine bien par `.jpg` ou `.png`
-- Vérifiez qu'il n'y a pas d'espace avant ou après le lien dans la cellule
-- Testez le lien en le collant dans un nouvel onglet : si l'image s'affiche seule, le lien est bon
+Le site se met à jour en quelques minutes.
+Si l'image ne s'affiche pas, vérifiez que le partage est bien sur
+**"Tout le monde disposant du lien"** (et non "Accès restreint").
 
 ### À savoir
 
-- imgbb héberge les images gratuitement et sans limite de durée connue.
-  Pour un usage commercial sérieux, mettre les photos directement dans `images/produits/`
-  via GitHub reste la solution la plus fiable à long terme.
-- Vous pouvez mélanger les deux : certaines photos dans `images/produits/`,
-  d'autres en lien imgbb, selon ce qui vous est le plus simple.
+- Les images Google Drive restent en ligne tant que vous ne les supprimez pas.
+- Vous pouvez aussi mélanger : certaines photos dans `images/produits/` (via GitHub),
+  d'autres via Google Drive, selon ce qui vous est le plus simple.
 
 ---
 

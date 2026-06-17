@@ -3,6 +3,16 @@
    Modifiez-le là-bas — une seule ligne à changer pour tout le site.
    ================================================================ */
 
+/* Convertit automatiquement un lien Google Drive en lien d'image direct.
+   Accepte aussi les chemins locaux et les liens imgbb/autres. */
+function convertirUrlImage(url) {
+  if (!url) return 'images/placeholder.svg';
+  // Lien de partage Google Drive → lien direct affichable
+  const drive = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (drive) return `https://drive.google.com/uc?export=view&id=${drive[1]}`;
+  return url;
+}
+
 /* Construit l'URL de chargement selon le mode choisi */
 function _getUrlProduits() {
   if (typeof SHEET_ID === 'undefined' || SHEET_ID === 'LOCAL') {
@@ -53,7 +63,7 @@ async function chargerProduits() {
 
 /* Génère le HTML d'une carte produit */
 function htmlCarteProduit(produit) {
-  const imgSrc = produit.image || 'images/placeholder.svg';
+  const imgSrc = convertirUrlImage(produit.image);
   const lien   = `produit.html?id=${produit.id}`;
   const badgePopulaire = produit.populaire
     ? '<span class="badge-populaire"><i class="fa-solid fa-star"></i> Populaire</span>'

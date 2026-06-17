@@ -129,9 +129,10 @@
       document.querySelector('meta[name="description"]').content =
         `${produit.nom} – ${produit.prix_affiche} – ${produit.description.substring(0, 100)}`;
 
-      const images = produit.images_galerie && produit.images_galerie.length > 0
+      const images = (produit.images_galerie && produit.images_galerie.length > 0
         ? produit.images_galerie
-        : [produit.image];
+        : [produit.image]
+      ).map(convertirUrlImage);
 
       const taillesHtml = produit.tailles.map(t => `
         <button class="taille-btn" data-taille="${t}">${t}</button>

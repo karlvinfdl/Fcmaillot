@@ -35,7 +35,7 @@ function htmlCarteProduit(produit, lienVersDetail = true) {
   const imgSrc = produit.image || 'images/placeholder.svg';
   const lien = `produit.html?id=${produit.id}`;
   const badgePopulaire = produit.populaire
-    ? '<span class="badge-populaire">⭐ Populaire</span>'
+    ? '<span class="badge-populaire"><i class="fa-solid fa-star"></i> Populaire</span>'
     : '';
 
   const taillesHtml = produit.tailles

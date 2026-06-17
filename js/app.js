@@ -37,9 +37,11 @@ function urlTikTok() {
   return `https://www.tiktok.com/${CONFIG.reseaux.tiktok.profil}`;
 }
 
-/* Génère les étoiles */
+/* Génère les étoiles avec Font Awesome */
 function etoiles(note) {
-  return '★'.repeat(note) + '☆'.repeat(5 - note);
+  const pleine = '<i class="fa-solid fa-star"></i>';
+  const vide = '<i class="fa-regular fa-star"></i>';
+  return pleine.repeat(note) + vide.repeat(5 - note);
 }
 
 /* Injecte les données config dans les attributs data-config du DOM */

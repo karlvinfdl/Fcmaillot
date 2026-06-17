@@ -677,6 +677,14 @@ footer {
   font-weight: 700;
 }
 
+/* ===== ICÔNES FONT AWESOME ===== */
+.contact-lien-icone i { font-size: 1.3rem; color: #fff; }
+.icone-snapchat i { color: #000; }
+.btn i { font-size: 1rem; }
+.bandeau i { margin-right: 4px; }
+.avis-etoiles i { font-size: 0.85rem; color: var(--accent); }
+.badge-populaire i { font-size: 0.65rem; }
+
 /* ===== LOADER ===== */
 .loader {
   display: flex;

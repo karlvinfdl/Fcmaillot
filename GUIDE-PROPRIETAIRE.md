@@ -1,10 +1,10 @@
-# 📘 Guide Propriétaire – FC Maillot
+# Guide Propriétaire – FC Maillot
 
 Bienvenue ! Ce guide vous explique comment gérer votre site vous-même, sans connaissance technique.
 
 ---
 
-## 🗂️ Structure du site
+## Structure du site
 
 ```
 fcmaillot/
@@ -13,56 +13,163 @@ fcmaillot/
 ├── produit.html        ← Fiche détail d'un maillot
 ├── contact.html        ← Page contact
 ├── data/
-│   ├── config.json     ← ⭐ VOS INFOS (réseaux sociaux, nom, slogan...)
-│   └── produits.json   ← ⭐ VOS PRODUITS
+│   ├── config.json     ← Vos infos (réseaux sociaux, nom, avis clients...)
+│   └── produits.json   ← Vos produits (si vous n'utilisez pas Google Sheets)
 ├── images/
 │   ├── produits/       ← Photos des maillots
 │   └── avis/           ← Photos des clients
-└── css/ & js/          ← Ne pas modifier
+└── js/
+    └── app.js          ← ⭐ L'unique ligne à modifier pour Google Sheets
 ```
 
 ---
 
-## 1️⃣ Changer vos informations (nom, WhatsApp, Snapchat...)
+## 1. Gérer les produits via Google Sheets (recommandé)
 
-Ouvrez le fichier `data/config.json` avec le Bloc-Notes.
+Avec Google Sheets, vous gérez vos maillots dans un tableau en ligne, comme Excel.
+Pas besoin de toucher au code — juste modifier le tableau et le site se met à jour.
 
-**Changer le numéro WhatsApp :**
-```json
-"whatsapp": {
-  "numero": "33612345678",   ← Remplacez par votre numéro (sans +, sans espaces)
+### Étape 1 — Créer votre Google Sheets
+
+1. Allez sur [sheets.google.com](https://sheets.google.com) et créez un nouveau fichier
+2. Renommez-le (ex : "FC Maillot – Produits")
+3. En bas, vous voyez un onglet nommé "Feuille 1" — double-cliquez dessus et renommez-le exactement :
+   **`Produits`** (avec un grand P, sans accent, sans espace)
+4. Dans la première ligne, écrivez ces en-têtes **exactement** (une par colonne) :
+
 ```
-Exemple pour le 06 12 34 56 78 : écrire `33612345678`
-
-**Changer le profil Snapchat :**
-```json
-"snapchat": {
-  "profil": "fcmaillot"   ← Mettez votre nom d'utilisateur Snapchat
-```
-
-**Changer le profil Instagram / TikTok :**
-```json
-"instagram": {
-  "profil": "fcmaillot"   ← Mettez votre nom d'utilisateur
+A              B     C     D              E                          F            G          H           I           J
+id             nom   prix  prix_affiche   image                      description  tailles    categorie   disponible  populaire
+paris-24       ...   35    35€            images/produits/paris.jpg  ...          S,M,L,XL   clubs-fr    TRUE        TRUE
+barca-24       ...   35    35€            images/produits/barca.jpg  ...          S,M,L,XL   clubs-esp   TRUE        FALSE
 ```
 
-**Changer le slogan :**
-```json
-"slogan": "Maillots de foot à prix imbattables"
-```
+**Détail de chaque colonne :**
+
+| Colonne | Ce qu'il faut écrire | Exemple |
+|---|---|---|
+| `id` | Identifiant unique sans espaces | `paris-24` |
+| `nom` | Nom du maillot | `Maillot Paris 24` |
+| `prix` | Prix en chiffre seul | `35` |
+| `prix_affiche` | Prix tel qu'affiché | `35€` |
+| `image` | Chemin de la photo | `images/produits/paris-24.jpg` |
+| `description` | Texte de description | `Maillot de qualité...` |
+| `tailles` | Tailles séparées par des virgules | `S,M,L,XL` |
+| `categorie` | Catégorie (voir liste ci-dessous) | `clubs-francais` |
+| `disponible` | `TRUE` pour visible, `FALSE` pour caché | `TRUE` |
+| `populaire` | `TRUE` pour afficher sur l'accueil | `TRUE` |
+
+**Catégories disponibles :**
+- `clubs-francais`
+- `clubs-espagnols`
+- `clubs-anglais`
+- `editions-speciales`
+- `selections`
 
 ---
 
-## 2️⃣ Ajouter un produit
+### Étape 2 — Créer l'onglet Config (optionnel)
 
-Ouvrez `data/produits.json` avec le Bloc-Notes.
+Si vous voulez aussi gérer vos infos (WhatsApp, Snapchat...) depuis Google Sheets :
 
-Ajoutez un bloc comme celui-ci à la fin de la liste (avant le `]` final) :
+1. Cliquez sur le **+** en bas pour ajouter un onglet
+2. Renommez-le exactement : **`Config`**
+3. Première ligne = les en-têtes, deuxième ligne = vos valeurs :
+
+```
+nom          slogan                            email                  hero_titre                          hero_texte                              whatsapp_numero   whatsapp_message              snapchat    instagram   tiktok
+FC Maillot   Maillots de foot à prix imbatt.   contact@fcmaillot.fr   MAILLOTS DE FOOT À PRIX IMBATTABLES  Qualité Pro • Livraison Rapide          33612345678       Bonjour je veux commander !   fcmaillot   fcmaillot   @fcmaillot
+```
+
+**Détail de chaque colonne :**
+
+| Colonne | Description |
+|---|---|
+| `nom` | Nom de votre boutique |
+| `slogan` | Phrase d'accroche |
+| `email` | Votre email de contact |
+| `hero_titre` | Grand titre sur la page d'accueil |
+| `hero_texte` | Sous-titre de la page d'accueil |
+| `whatsapp_numero` | Numéro sans + ni espaces (ex: `33612345678`) |
+| `whatsapp_message` | Message pré-rempli WhatsApp |
+| `snapchat` | Votre pseudo Snapchat |
+| `instagram` | Votre pseudo Instagram |
+| `tiktok` | Votre pseudo TikTok (avec @) |
+
+---
+
+### Étape 3 — Publier votre Google Sheets
+
+Pour que le site puisse lire votre tableau, il doit être accessible publiquement :
+
+1. Dans Google Sheets, cliquez sur **Fichier** (en haut à gauche)
+2. Choisissez **Partager** → **Publier sur le web**
+3. Dans la fenêtre qui s'ouvre :
+   - Sélectionnez **"Document entier"**
+   - Format : **"Page Web"** (ou tout autre format, ça n'a pas d'importance)
+4. Cliquez sur **"Publier"** puis confirmez avec **"OK"**
+5. Fermez cette fenêtre
+
+---
+
+### Étape 4 — Récupérer votre Sheet ID
+
+Regardez l'URL de votre Google Sheets dans la barre du navigateur.
+Elle ressemble à ceci :
+
+```
+https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/edit
+                                       ↑_________________________________________↑
+                                       C'est votre SHEET_ID — copiez cette partie
+```
+
+Copiez la longue suite de lettres et chiffres entre `/d/` et `/edit`.
+
+---
+
+### Étape 5 — Coller l'ID dans le code
+
+1. Ouvrez le fichier `js/app.js` avec le Bloc-Notes
+2. Tout en haut du fichier, trouvez cette ligne :
+
+```javascript
+const SHEET_ID = 'LOCAL';
+```
+
+3. Remplacez `LOCAL` par votre ID (gardez les guillemets) :
+
+```javascript
+const SHEET_ID = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms';
+```
+
+4. Sauvegardez le fichier (Ctrl+S)
+5. Publiez sur GitHub (voir section 7 ci-dessous)
+
+C'est tout ! Le site chargera désormais les produits depuis votre Google Sheets.
+
+---
+
+### Ajouter / modifier / supprimer un produit
+
+- **Ajouter** → Ajoutez une nouvelle ligne dans l'onglet "Produits" de votre Google Sheets
+- **Modifier** → Changez la valeur dans la cellule correspondante
+- **Supprimer** → Supprimez la ligne entière
+- **Cacher sans supprimer** → Mettez `FALSE` dans la colonne `disponible`
+
+Les changements apparaissent sur le site dans les **2-5 minutes** (délai du cache Google).
+
+---
+
+## 2. Gérer les produits via le fichier JSON (méthode simple)
+
+Si vous ne voulez pas utiliser Google Sheets, ouvrez `data/produits.json` avec le Bloc-Notes.
+
+**Ajouter un produit** — ajoutez ce bloc avant le `]` final :
 
 ```json
 ,
 {
-  "id": "mon-nouveau-maillot",
+  "id": "arsenal-24",
   "nom": "Maillot Arsenal 24",
   "prix": 35,
   "prix_affiche": "35€",
@@ -76,148 +183,101 @@ Ajoutez un bloc comme celui-ci à la fin de la liste (avant le `]` final) :
 }
 ```
 
-> ⚠️ **Attention** : l'`id` doit être unique et sans espaces (utilisez des tirets).
+> L'`id` doit être unique et sans espaces (utilisez des tirets).
 
-**Catégories disponibles :**
-- `clubs-francais`
-- `clubs-espagnols`
-- `clubs-anglais`
-- `editions-speciales`
-- `selections`
+**Rendre un produit indisponible :** mettez `"disponible": false`
+
+**Mettre en populaire (affiché en accueil) :** mettez `"populaire": true`
 
 ---
 
-## 3️⃣ Modifier un produit existant
+## 3. Changer vos informations (sans Google Sheets)
 
-Ouvrez `data/produits.json`, trouvez le produit par son `nom` et modifiez les champs voulus.
+Ouvrez `data/config.json` avec le Bloc-Notes.
 
-**Changer le prix :**
+**Numéro WhatsApp** (sans +, sans espaces) :
 ```json
-"prix": 40,
-"prix_affiche": "40€",
+"whatsapp": { "numero": "33612345678" }
 ```
 
-**Rendre un produit indisponible (sans le supprimer) :**
+**Profil Snapchat / Instagram / TikTok** :
 ```json
-"disponible": false
-```
-
-**Mettre un produit en "Populaire" (affiché sur la page d'accueil) :**
-```json
-"populaire": true
+"snapchat":  { "profil": "votre-pseudo" },
+"instagram": { "profil": "votre-pseudo" },
+"tiktok":    { "profil": "@votre-pseudo" }
 ```
 
 ---
 
-## 4️⃣ Supprimer un produit
+## 4. Ajouter une photo de maillot
 
-Dans `data/produits.json`, supprimez le bloc entier correspondant au produit :
+1. Renommez votre photo en minuscules sans espaces : `arsenal-24.jpg`
+2. Copiez-la dans `images/produits/`
+3. Dans votre Google Sheets (ou `produits.json`), mettez : `images/produits/arsenal-24.jpg`
+
+> Formats acceptés : `.jpg`, `.jpeg`, `.png`, `.webp`
+> Taille recommandée : 600×600 pixels minimum, format carré
+
+---
+
+## 5. Ajouter des avis clients
+
+Les avis clients restent dans `data/config.json` (car ils contiennent des photos).
+Trouvez la section `avis_clients` et ajoutez un bloc :
+
 ```json
 {
-  "id": "...",
-  ...
-},    ← Supprimez tout jusqu'ici (y compris la virgule)
+  "nom": "Thomas R.",
+  "texte": "Très satisfait, livraison rapide !",
+  "photo": "images/avis/thomas.jpg",
+  "note": 5
+}
 ```
 
----
-
-## 5️⃣ Ajouter une photo de maillot
-
-1. Renommez votre photo en **lettres minuscules sans espaces**, ex : `arsenal-24.jpg`
-2. Copiez-la dans le dossier `images/produits/`
-3. Dans `produits.json`, mettez le chemin : `"image": "images/produits/arsenal-24.jpg"`
-
-> ✅ Formats acceptés : `.jpg`, `.jpeg`, `.png`, `.webp`
-> ✅ Taille recommandée : 600×600 pixels minimum, carré de préférence
+Si vous n'avez pas de photo client, mettez `"photo": ""`.
 
 ---
 
-## 6️⃣ Ajouter des avis clients
+## 6. Publier les changements sur GitHub Pages
 
-Ouvrez `data/config.json` et trouvez la section `avis_clients` :
-
-```json
-"avis_clients": [
-  {
-    "nom": "Lucas M.",
-    "texte": "Super maillot, je recommande !",
-    "photo": "images/avis/lucas.jpg",
-    "note": 5
-  },
-  ...
-]
-```
-
-Ajoutez un bloc similaire. Si vous n'avez pas de photo, mettez `"photo": ""`.
-
----
-
-## 7️⃣ Publier les changements sur GitHub Pages
-
-### Première fois (configuration initiale)
-
-1. Créez un compte sur [github.com](https://github.com) si ce n'est pas fait
-2. Cliquez sur **"New repository"** (nouveau dépôt)
-3. Nommez-le `fcmaillot` (ou le nom que vous voulez)
-4. Cochez **"Add a README file"**, puis cliquez **"Create repository"**
-5. Téléchargez **GitHub Desktop** sur [desktop.github.com](https://desktop.github.com)
-6. Dans GitHub Desktop, cliquez **"Clone a repository"** et choisissez votre dépôt
-7. Copiez tous les fichiers de votre site dans le dossier cloné
-
-### Publier les mises à jour
+### Publier une mise à jour
 
 1. Ouvrez **GitHub Desktop**
-2. Vous verrez la liste des fichiers modifiés à gauche
-3. Écrivez un court message en bas à gauche (ex : "Ajout maillot Arsenal")
+2. Vous voyez la liste des fichiers modifiés à gauche
+3. Écrivez un message en bas à gauche (ex : "Ajout maillot Arsenal")
 4. Cliquez **"Commit to main"**
-5. Cliquez **"Push origin"** (en haut)
+5. Cliquez **"Push origin"**
 
-### Activer GitHub Pages
+Le site est mis à jour en 1-2 minutes.
 
-1. Sur GitHub, allez dans votre dépôt → **Settings** → **Pages**
-2. Sous **"Branch"**, choisissez `main` et le dossier `/root`
+> Si vous utilisez Google Sheets, vous n'avez PAS besoin de faire un push après chaque modification de produit — seulement après avoir modifié les fichiers HTML/CSS/JS ou les images.
+
+### Activer GitHub Pages (première fois)
+
+1. Allez sur votre dépôt GitHub → **Settings** → **Pages**
+2. Sous "Branch", choisissez `main` et le dossier `/ (root)`
 3. Cliquez **Save**
-4. Votre site sera en ligne sur `https://votre-pseudo.github.io/fcmaillot/` dans quelques minutes
+4. Votre site sera sur `https://votre-pseudo.github.io/fcmaillot/`
 
 ---
 
-## 8️⃣ Option avancée : Gérer les produits depuis Google Sheets
+## Questions fréquentes
 
-Si vous préférez gérer vos produits dans un tableur en ligne :
+**Les produits ne s'affichent pas en mode Google Sheets ?**
+- Vérifiez que le Sheet est bien publié (Fichier → Partager → Publier sur le web)
+- Vérifiez que le SHEET_ID dans `js/app.js` est correct (copiez-le depuis l'URL)
+- Vérifiez que l'onglet s'appelle exactement `Produits` (P majuscule)
 
-1. Créez un Google Sheets avec ces colonnes exactes :
-   `id | nom | prix | prix_affiche | image | description | tailles | categorie | disponible | populaire`
-
-2. Allez dans **Fichier → Partager → Publier sur le web**
-   Choisissez : Feuille entière → Format JSON → Publier
-
-3. Notez l'ID de votre Sheet (dans l'URL : `docs.google.com/spreadsheets/d/**VOTRE_ID**/...`)
-
-4. Ouvrez `js/produits.js` et remplacez :
-   ```javascript
-   const URL_PRODUITS = 'data/produits.json';
-   ```
-   par :
-   ```javascript
-   const URL_PRODUITS = 'https://opensheet.elk.sh/VOTRE_ID_ICI/Feuille1';
-   ```
-
-5. Dans la colonne `tailles`, écrivez les tailles séparées par des virgules : `S,M,L,XL`
-
----
-
-## ❓ Questions fréquentes
-
-**Mon site ne s'affiche pas correctement en local ?**
-Ouvrez le site via un serveur local (double-cliquer sur `index.html` peut bloquer les fichiers JSON).
-Solution simple : utilisez l'extension **Live Server** dans VS Code.
+**Le site affiche "Impossible de charger les produits" ?**
+- En local (sur votre ordinateur) : utilisez l'extension Live Server dans VS Code
+- En ligne : vérifiez votre SHEET_ID et que le Sheet est publié
 
 **Les images ne s'affichent pas ?**
-Vérifiez que le nom du fichier image dans `produits.json` correspond exactement au fichier dans `images/produits/` (attention aux majuscules).
+Le nom de fichier dans Google Sheets doit correspondre exactement au fichier dans `images/produits/` (attention aux majuscules).
 
-**Les boutons WhatsApp/Snapchat n'ouvrent pas le bon compte ?**
-Vérifiez `data/config.json`, section `reseaux`.
+**Je veux revenir aux fichiers JSON ?**
+Dans `js/app.js`, remettez : `const SHEET_ID = 'LOCAL';`
 
 ---
 
-*Guide rédigé pour FC Maillot – Site statique HTML/CSS/JS*
+*Guide FC Maillot – Site statique HTML/CSS/JS avec intégration Google Sheets*

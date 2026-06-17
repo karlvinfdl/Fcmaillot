@@ -1,39 +1,60 @@
-/* Chargement et affichage des produits depuis produits.json */
+/* ================================================================
+   SHEET_ID est défini dans js/app.js (chargé avant ce fichier).
+   Modifiez-le là-bas — une seule ligne à changer pour tout le site.
+   ================================================================ */
 
-/* OPTION GOOGLE SHEETS :
-   Pour utiliser Google Sheets à la place de produits.json :
-   1. Créez un Google Sheets avec les colonnes :
-      id | nom | prix | prix_affiche | image | description | tailles | categorie | disponible | populaire
-   2. Publiez le sheet (Fichier > Partager > Publier sur le web > Feuille entière > JSON)
-   3. Récupérez l'ID de votre Google Sheet dans son URL (la longue suite de lettres/chiffres)
-   4. Remplacez la ligne ci-dessous :
-      const URL_PRODUITS = 'data/produits.json';
-      par :
-      const URL_PRODUITS = 'https://opensheet.elk.sh/VOTRE_ID_ICI/Produits';
-   Note : dans Google Sheets, la colonne "tailles" doit contenir les tailles séparées par des virgules (ex: S,M,L,XL)
-*/
-const URL_PRODUITS = 'data/produits.json';
+/* Construit l'URL de chargement selon le mode choisi */
+function _getUrlProduits() {
+  if (typeof SHEET_ID === 'undefined' || SHEET_ID === 'LOCAL') {
+    return 'data/produits.json';
+  }
+  return `https://opensheet.elk.sh/${SHEET_ID}/Produits`;
+}
 
 let TOUS_PRODUITS = [];
 
 async function chargerProduits() {
-  const rep = await fetch(URL_PRODUITS);
-  let data = await rep.json();
-  /* Compatibilité Google Sheets : les tailles peuvent arriver en string "S,M,L,XL" */
-  data = data.map(p => ({
-    ...p,
-    tailles: Array.isArray(p.tailles) ? p.tailles : String(p.tailles).split(',').map(t => t.trim()),
-    disponible: p.disponible === true || p.disponible === 'true' || p.disponible === 1,
-    populaire: p.populaire === true || p.populaire === 'true' || p.populaire === 1
-  }));
+  const url = _getUrlProduits();
+
+  let data;
+  try {
+    const rep = await fetch(url);
+    if (!rep.ok) throw new Error(`HTTP ${rep.status}`);
+    data = await rep.json();
+  } catch (e) {
+    const source = SHEET_ID === 'LOCAL' ? 'le fichier local data/produits.json' : 'Google Sheets';
+    throw new Error(`Impossible de charger les produits depuis ${source}. Vérifiez votre connexion ou la configuration.`);
+  }
+
+  /* Normalisation des données (Google Sheets envoie tout en texte) */
+  data = data.map(p => {
+    const prix = Number(p.prix) || 0;
+    const tailles = Array.isArray(p.tailles)
+      ? p.tailles
+      : String(p.tailles || '').split(',').map(t => t.trim()).filter(Boolean);
+
+    const bool = v => v === true || v === 1
+      || String(v).toLowerCase() === 'true'
+      || String(v).toLowerCase() === 'oui';
+
+    return {
+      ...p,
+      prix,
+      prix_affiche: p.prix_affiche || `${prix}€`,
+      tailles,
+      disponible: bool(p.disponible),
+      populaire:  bool(p.populaire)
+    };
+  });
+
   TOUS_PRODUITS = data;
   return data;
 }
 
 /* Génère le HTML d'une carte produit */
-function htmlCarteProduit(produit, lienVersDetail = true) {
+function htmlCarteProduit(produit) {
   const imgSrc = produit.image || 'images/placeholder.svg';
-  const lien = `produit.html?id=${produit.id}`;
+  const lien   = `produit.html?id=${produit.id}`;
   const badgePopulaire = produit.populaire
     ? '<span class="badge-populaire"><i class="fa-solid fa-star"></i> Populaire</span>'
     : '';
@@ -47,7 +68,7 @@ function htmlCarteProduit(produit, lienVersDetail = true) {
       <div class="carte-produit-image">
         ${badgePopulaire}
         <img src="${imgSrc}" alt="${produit.nom}" loading="lazy"
-             onerror="this.src='images/placeholder.jpg'">
+             onerror="this.src='images/placeholder.svg'">
       </div>
       <div class="carte-produit-body">
         <div class="carte-produit-nom">${produit.nom}</div>
@@ -57,16 +78,13 @@ function htmlCarteProduit(produit, lienVersDetail = true) {
         <div class="carte-produit-tailles">${taillesHtml}</div>
       </div>
       <div class="carte-produit-footer">
-        ${lienVersDetail
-          ? `<a href="${lien}" class="btn-voir-details">Voir Details <span>›</span></a>`
-          : `<button class="btn-voir-details" onclick="window.location='${lien}'">Voir Details <span>›</span></button>`
-        }
+        <a href="${lien}" class="btn-voir-details">Voir Details <span>›</span></a>
       </div>
     </div>
   `;
 }
 
-/* Affiche les produits dans un conteneur donné, avec filtre optionnel */
+/* Affiche les produits dans un conteneur donné */
 function afficherProduits(produits, conteneurId) {
   const conteneur = document.getElementById(conteneurId);
   if (!conteneur) return;

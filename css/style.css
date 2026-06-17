@@ -685,6 +685,85 @@ footer {
   font-weight: 700;
 }
 
+/* ===== MODAL AVIS ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-overlay.ouvert { display: flex; }
+
+.modal-boite {
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalEntree 0.25s ease;
+}
+
+@keyframes modalEntree {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--bordure);
+  flex-shrink: 0;
+}
+
+.modal-titre {
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent);
+}
+
+.modal-fermer {
+  background: transparent;
+  border: none;
+  color: var(--texte-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color var(--transition);
+}
+
+.modal-fermer:hover { color: var(--texte); }
+
+.modal-boite iframe {
+  width: 100%;
+  flex: 1;
+  min-height: 480px;
+  border: none;
+}
+
+.modal-note {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--texte-muted);
+  padding: 0.7rem;
+  border-top: 1px solid var(--bordure);
+  flex-shrink: 0;
+}
+
 /* ===== ICÔNES FONT AWESOME ===== */
 .contact-lien-icone i { font-size: 1.3rem; color: #fff; }
 .icone-snapchat i { color: #000; }

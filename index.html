@@ -57,13 +57,31 @@
       <h2 class="section-titre" style="text-align:center">AVIS DE NOS CLIENTS</h2>
       <p class="section-sous-titre">Ils nous font confiance !</p>
       <div class="grille-avis" id="grille-avis">
-        <!-- Injecté par JS -->
         <div class="loader"><div class="spinner"></div></div>
       </div>
-      <!-- Photos clients -->
       <div class="avis-photos" id="avis-photos"></div>
+      <!-- Bouton laisser un avis (masqué si FORM_AVIS_URL est vide) -->
+      <div style="text-align:center; margin-top:2rem;">
+        <button id="btn-laisser-avis" class="btn btn-accent" onclick="ouvrirModalAvis()" style="display:none;">
+          <i class="fa-solid fa-pen-to-square"></i> Laisser un avis
+        </button>
+      </div>
     </div>
   </section>
+
+  <!-- MODAL FORMULAIRE D'AVIS -->
+  <div class="modal-overlay" id="modal-avis">
+    <div class="modal-boite">
+      <div class="modal-entete">
+        <span class="modal-titre"><i class="fa-solid fa-star"></i> Laisser un avis</span>
+        <button class="modal-fermer" onclick="fermerModalAvis()" aria-label="Fermer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <iframe id="iframe-form-avis" src="" frameborder="0" allowfullscreen></iframe>
+      <p class="modal-note">Votre avis sera visible sur le site après validation.</p>
+    </div>
+  </div>
 
   <!-- PRODUITS POPULAIRES -->
   <section class="section">

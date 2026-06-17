@@ -8,6 +8,15 @@
 const SHEET_ID = 'LOCAL';
 
 /* ================================================================
+   ⭐  LIEN DU FORMULAIRE D'AVIS — MODIFIEZ CETTE LIGNE
+   Collez l'URL de votre Google Form pour les avis clients.
+   Laissez '' (vide) pour masquer le bouton "Laisser un avis".
+
+   Exemple : const FORM_AVIS_URL = 'https://forms.gle/AbCd1234';
+   ================================================================ */
+const FORM_AVIS_URL = '';
+
+/* ================================================================
    NE PAS MODIFIER EN DESSOUS DE CETTE LIGNE
    ================================================================ */
 
@@ -22,20 +31,32 @@ function chargerConfig() {
     _configPromise = fetch('data/config.json')
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(data => { CONFIG = data; return data; })
-      .catch(e => { throw new Error('Impossible de charger la configuration locale.'); });
+      .catch(() => { throw new Error('Impossible de charger la configuration locale.'); });
 
   } else {
-    /* Mode Google Sheets : onglet "Config" + avis depuis config.json local */
+    /* Mode Google Sheets : charge Config + Avis + garde config.json pour le fallback */
     _configPromise = Promise.all([
       fetch(`https://opensheet.elk.sh/${SHEET_ID}/Config`)
         .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
       fetch('data/config.json')
         .then(r => r.json())
-        .catch(() => ({}))  /* config.json reste optionnel en mode Sheets */
+        .catch(() => ({})),
+      fetch(`https://opensheet.elk.sh/${SHEET_ID}/Avis`)
+        .then(r => r.json())
+        .catch(() => [])   /* l'onglet Avis peut être vide au départ */
     ])
-    .then(([sheetsData, localData]) => {
-      /* Google Sheets renvoie un tableau — on prend la première ligne */
+    .then(([sheetsData, localData, avisData]) => {
       const ligne = sheetsData[0] || {};
+
+      /* Normalise les avis reçus depuis Google Forms / Google Sheets */
+      const avisSheets = avisData
+        .map(a => ({
+          nom:   String(a.nom   || 'Anonyme').trim(),
+          note:  Math.min(5, Math.max(1, Number(a.note) || 5)),
+          texte: String(a.texte || '').trim(),
+          photo: String(a.photo || '').trim()
+        }))
+        .filter(a => a.texte); /* n'affiche que les avis avec un commentaire */
 
       CONFIG = {
         entreprise: {
@@ -50,20 +71,20 @@ function chargerConfig() {
         },
         reseaux: {
           whatsapp: {
-            numero:          ligne.whatsapp_numero  || localData.reseaux?.whatsapp?.numero          || '',
-            message_defaut:  ligne.whatsapp_message || localData.reseaux?.whatsapp?.message_defaut  || 'Bonjour, je veux commander un maillot !'
+            numero:         ligne.whatsapp_numero  || localData.reseaux?.whatsapp?.numero         || '',
+            message_defaut: ligne.whatsapp_message || localData.reseaux?.whatsapp?.message_defaut || 'Bonjour, je veux commander un maillot !'
           },
           snapchat:  { profil: ligne.snapchat  || localData.reseaux?.snapchat?.profil  || '' },
           instagram: { profil: ligne.instagram || localData.reseaux?.instagram?.profil || '' },
           tiktok:    { profil: ligne.tiktok    || localData.reseaux?.tiktok?.profil    || '' }
         },
-        /* Les avis clients restent dans config.json (ils contiennent des URLs de photos) */
-        avis_clients: localData.avis_clients || [],
-        couleurs:     localData.couleurs     || {}
+        /* Priorité aux avis Google Sheets ; fallback sur config.json */
+        avis_clients: avisSheets.length > 0 ? avisSheets : (localData.avis_clients || []),
+        couleurs:     localData.couleurs || {}
       };
       return CONFIG;
     })
-    .catch(e => {
+    .catch(() => {
       throw new Error('Impossible de charger la configuration Google Sheets. Vérifiez votre SHEET_ID et que le Sheet est bien publié.');
     });
   }
@@ -71,7 +92,45 @@ function chargerConfig() {
   return _configPromise;
 }
 
-/* Construit l'URL WhatsApp pour un produit donné */
+/* ================================================================
+   MODAL FORMULAIRE D'AVIS
+   ================================================================ */
+
+function ouvrirModalAvis() {
+  if (!FORM_AVIS_URL) return;
+  const overlay = document.getElementById('modal-avis');
+  const iframe  = document.getElementById('iframe-form-avis');
+  if (!overlay || !iframe) return;
+  /* Ajoute ?embedded=true pour Google Forms */
+  const url = FORM_AVIS_URL.includes('?') ? FORM_AVIS_URL : FORM_AVIS_URL + '?embedded=true';
+  iframe.src = url;
+  overlay.classList.add('ouvert');
+  document.body.style.overflow = 'hidden';
+}
+
+function fermerModalAvis() {
+  const overlay = document.getElementById('modal-avis');
+  const iframe  = document.getElementById('iframe-form-avis');
+  if (!overlay || !iframe) return;
+  overlay.classList.remove('ouvert');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+/* Fermer le modal en cliquant en dehors */
+document.addEventListener('click', e => {
+  if (e.target.id === 'modal-avis') fermerModalAvis();
+});
+
+/* Fermer avec Échap */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') fermerModalAvis();
+});
+
+/* ================================================================
+   UTILITAIRES
+   ================================================================ */
+
 function urlWhatsApp(nomProduit) {
   if (!CONFIG) return '#';
   const num = CONFIG.reseaux.whatsapp.numero;
@@ -96,21 +155,18 @@ function urlTikTok() {
   return `https://www.tiktok.com/${CONFIG.reseaux.tiktok.profil}`;
 }
 
-/* Génère les étoiles avec Font Awesome */
 function etoiles(note) {
   const pleine = '<i class="fa-solid fa-star"></i>';
   const vide   = '<i class="fa-regular fa-star"></i>';
   return pleine.repeat(note) + vide.repeat(5 - note);
 }
 
-/* Affiche un message d'erreur dans tous les conteneurs de chargement */
 function afficherErreurGlobale(message) {
   document.querySelectorAll('.loader').forEach(el => {
     el.innerHTML = `<p class="message-vide" style="color:#e55;padding:1rem;">${message}</p>`;
   });
 }
 
-/* Injecte les données config dans les attributs data-config du DOM */
 function injecterConfig() {
   document.querySelectorAll('[data-config="nom"]').forEach(el => {
     el.textContent = CONFIG.entreprise.nom;
@@ -136,6 +192,10 @@ function injecterConfig() {
   const heroTexte = document.querySelector('[data-config="hero-texte"]');
   if (heroTexte && CONFIG.hero.texte) heroTexte.textContent = CONFIG.hero.texte;
 
+  /* Bouton "Laisser un avis" : visible seulement si FORM_AVIS_URL est rempli */
+  const btnAvis = document.getElementById('btn-laisser-avis');
+  if (btnAvis) btnAvis.style.display = FORM_AVIS_URL ? 'inline-flex' : 'none';
+
   /* Active le lien nav courant */
   const page = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.navbar-links a').forEach(lien => {
@@ -143,15 +203,13 @@ function injecterConfig() {
   });
 }
 
-/* Menu hamburger mobile */
 function initHamburger() {
-  const btn  = document.querySelector('.hamburger');
+  const btn   = document.querySelector('.hamburger');
   const liens = document.querySelector('.navbar-links');
   if (!btn || !liens) return;
   btn.addEventListener('click', () => liens.classList.toggle('ouvert'));
 }
 
-/* Initialisation commune à toutes les pages */
 async function initPage() {
   try {
     await chargerConfig();

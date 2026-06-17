@@ -265,9 +265,82 @@ Ouvrez `data/config.json` avec le Bloc-Notes.
 
 ---
 
-## 6. Ajouter des avis clients
+## 6. Permettre aux clients de laisser un avis (Google Forms)
 
-Les avis clients restent dans `data/config.json` (car ils contiennent des photos).
+Avec Google Forms, vos clients peuvent laisser un avis directement depuis votre site.
+Le bouton "Laisser un avis" s'ouvre en fenêtre sans quitter la page.
+
+### Étape 1 — Créer le formulaire Google Forms
+
+1. Allez sur [forms.google.com](https://forms.google.com) et créez un nouveau formulaire
+2. Donnez-lui un titre : "Avis clients – FC Maillot"
+3. Ajoutez exactement **3 questions** avec ces libellés exacts :
+
+| Libellé de la question | Type de question |
+|---|---|
+| `nom` | Réponse courte |
+| `note` | Échelle linéaire (minimum 1, maximum 5) |
+| `texte` | Réponse longue |
+
+> Le libellé est ce que vous tapez dans le champ "Question" dans Google Forms.
+> Il doit être écrit exactement comme indiqué (minuscules, sans accent).
+
+### Étape 2 — Lier le formulaire à votre Google Sheets
+
+1. Dans Google Forms, cliquez sur l'onglet **"Réponses"** (en haut)
+2. Cliquez sur l'icône verte **"Lier à Sheets"** (icône tableur)
+3. Choisissez **"Sélectionner une feuille de calcul existante"**
+4. Choisissez votre Google Sheets FC Maillot
+5. Google va créer automatiquement un onglet **"Réponses au formulaire 1"**
+6. Renommez cet onglet en **`Avis`** (double-cliquez sur l'onglet en bas)
+
+Les colonnes créées seront : `Horodateur | nom | note | texte`
+Le site lira automatiquement cet onglet.
+
+### Étape 3 — Récupérer le lien du formulaire
+
+1. Dans Google Forms, cliquez sur **"Envoyer"** (bouton en haut à droite)
+2. Cliquez sur l'icône **lien** (chaîne)
+3. Cochez **"Raccourcir l'URL"**
+4. Copiez le lien (ex : `https://forms.gle/AbCd1234`)
+
+### Étape 4 — Activer le bouton sur le site
+
+1. Ouvrez `js/app.js` avec le Bloc-Notes
+2. Trouvez cette ligne (vers le début du fichier) :
+
+```javascript
+const FORM_AVIS_URL = '';
+```
+
+3. Collez votre lien entre les guillemets :
+
+```javascript
+const FORM_AVIS_URL = 'https://forms.gle/AbCd1234';
+```
+
+4. Sauvegardez et publiez sur GitHub (voir section 7)
+
+Le bouton **"Laisser un avis"** apparaîtra alors automatiquement sur la page d'accueil.
+
+### Modérer les avis
+
+- Ouvrez l'onglet **"Avis"** dans votre Google Sheets
+- Pour **supprimer un avis** : sélectionnez la ligne et supprimez-la
+- Pour **masquer un avis** sans le supprimer : effacez juste le contenu de la colonne `texte`
+- Les changements s'appliquent sur le site en quelques minutes
+
+### Avis manuels (sans Google Forms)
+
+Si vous voulez ajouter un avis manuellement (ex : un client vous a écrit sur WhatsApp) :
+- Ouvrez l'onglet **"Avis"** dans Google Sheets
+- Ajoutez une ligne : laissez `Horodateur` vide, remplissez `nom`, `note` (1-5), `texte`
+
+---
+
+### Avis sans Google Sheets (mode local)
+
+Si vous n'utilisez pas Google Sheets, les avis restent dans `data/config.json`.
 Trouvez la section `avis_clients` et ajoutez un bloc :
 
 ```json

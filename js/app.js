@@ -46,17 +46,20 @@ function chargerConfig() {
         .catch(() => [])   /* l'onglet Avis peut être vide au départ */
     ])
     .then(([sheetsData, localData, avisData]) => {
-      const ligne = sheetsData[0] || {};
+      const norm = obj => Object.fromEntries(
+        Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+      );
+      const ligne = norm(sheetsData[0] || {});
 
       /* Normalise les avis reçus depuis Google Forms / Google Sheets */
       const avisSheets = avisData
-        .map(a => ({
-          nom:    String(a.nom    || a.Nom    || 'Anonyme').trim(),
-          note:   Math.min(5, Math.max(1, Number(a.note  || a.Note)  || 5)),
-          texte:  String(a.texte  || a.Texte  || '').trim(),
-          photo:  String(a.photo  || a.Photo  || '').trim(),
-          valide: String(a.valide || a.Valide || a.VALIDE || '').toUpperCase().trim()
-        }))
+        .map(raw => { const a = norm(raw); return {
+          nom:    String(a.nom    || 'Anonyme').trim(),
+          note:   Math.min(5, Math.max(1, Number(a.note) || 5)),
+          texte:  String(a.texte  || '').trim(),
+          photo:  String(a.photo  || '').trim(),
+          valide: String(a.valide || '').toUpperCase().trim()
+        }; })
         /* Seules les lignes où valide = "TRUE" sont affichées (modération manuelle) */
         .filter(a => a.texte && a.valide === 'TRUE');
 

@@ -37,7 +37,8 @@ async function chargerProduits() {
   }
 
   /* Normalisation des données (Google Sheets envoie tout en texte) */
-  data = data.map(p => {
+  data = data.map(raw => {
+    const p = Object.fromEntries(Object.entries(raw).map(([k, v]) => [k.toLowerCase(), v]));
     const prix = Number(p.prix) || 0;
     const tailles = Array.isArray(p.tailles)
       ? p.tailles

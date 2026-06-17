@@ -26,26 +26,7 @@
       "profil": "@fcmaillot"
     }
   },
-  "avis_clients": [
-    {
-      "nom": "Lucas M.",
-      "texte": "Maillot top qualité ! Livraison rapide. Je recommande à 100% !",
-      "photo": "images/avis/lucas.jpg",
-      "note": 5
-    },
-    {
-      "nom": "Sarah T.",
-      "texte": "Super service, maillot conforme à la photo. Très satisfaite !",
-      "photo": "images/avis/sarah.jpg",
-      "note": 5
-    },
-    {
-      "nom": "Mehdi C.",
-      "texte": "Parfait comme d'hab, au top ! Merci encore !",
-      "photo": "images/avis/mehdi.jpg",
-      "note": 5
-    }
-  ],
+  "avis_clients": [],
   "couleurs": {
     "accent_principal": "#f5a623",
     "accent_secondaire": "#25D366",

@@ -75,7 +75,7 @@ function htmlCarteProduit(produit) {
     .join('');
 
   return `
-    <div class="carte-produit reveal" data-id="${produit.id}" data-categorie="${produit.categorie}">
+    <a href="${lien}" class="carte-produit reveal" data-id="${produit.id}" data-categorie="${produit.categorie}">
       <div class="carte-produit-image">
         ${badgePopulaire}
         <img src="${imgSrc}" alt="${produit.nom}" loading="lazy"
@@ -89,9 +89,9 @@ function htmlCarteProduit(produit) {
         <div class="carte-produit-tailles">${taillesHtml}</div>
       </div>
       <div class="carte-produit-footer">
-        <a href="${lien}" class="btn-voir-details">Voir Details <span>›</span></a>
+        <div class="btn-voir-details">Voir Details <span>›</span></div>
       </div>
-    </div>
+    </a>
   `;
 }
 

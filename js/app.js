@@ -14,7 +14,7 @@ const SHEET_ID = 'LOCAL';
 
    Exemple : const FORM_AVIS_URL = 'https://forms.gle/AbCd1234';
    ================================================================ */
-const FORM_AVIS_URL = '';
+const FORM_AVIS_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSd6HvLEFtXQBvth0vJT8z4G6PMEJgjocqF3izvRHfjg387KrA/viewform';
 
 /* ================================================================
    NE PAS MODIFIER EN DESSOUS DE CETTE LIGNE
@@ -103,8 +103,8 @@ function ouvrirModalAvis() {
   const overlay = document.getElementById('modal-avis');
   const iframe  = document.getElementById('iframe-form-avis');
   if (!overlay || !iframe) return;
-  /* Ajoute ?embedded=true pour Google Forms */
-  const url = FORM_AVIS_URL.includes('?') ? FORM_AVIS_URL : FORM_AVIS_URL + '?embedded=true';
+  /* Supprime les paramètres existants et force ?embedded=true pour l'intégration */
+  const url = FORM_AVIS_URL.split('?')[0] + '?embedded=true';
   iframe.src = url;
   overlay.classList.add('ouvert');
   document.body.style.overflow = 'hidden';

@@ -163,45 +163,46 @@ Les changements apparaissent sur le site dans les **2-5 minutes** (délai du cac
 ## 2. Ajouter une photo de maillot sans passer par GitHub
 
 Si vous gérez vos produits depuis Google Sheets et que vous voulez ajouter une photo
-sans demander à votre développeur, suivez ces étapes avec Imgur (gratuit, sans compte).
+sans demander à votre développeur, utilisez **imgbb.com** (gratuit, sans compte, fonctionne bien).
 
-### Étape 1 : Uploader la photo sur Imgur
+> ❌ N'utilisez pas Imgur — il bloque les images intégrées sur des sites externes.
 
-1. Allez sur https://imgur.com/upload
-2. Glissez votre photo de maillot dans la zone d'upload (formats JPG ou PNG, idéalement carrée)
-3. Attendez la fin de l'upload
+### Étape 1 : Uploader la photo sur imgbb
 
-### Étape 2 : Récupérer le lien direct de l'image
+1. Allez sur **https://imgbb.com**
+2. Cliquez sur **"Démarrer l'envoi"** (ou glissez votre photo directement)
+3. Sélectionnez votre photo de maillot (JPG ou PNG, idéalement carré)
+4. Attendez la fin de l'upload
 
-1. Une fois l'image uploadée, cliquez-droit sur l'image affichée
-2. Choisissez "Copier l'adresse de l'image" (ou "Copy image address")
-3. Le lien doit ressembler à : https://i.imgur.com/AbCd123.png
-   (il doit se terminer par .png ou .jpg, sinon ce n'est pas le bon lien)
+### Étape 2 : Récupérer le lien direct
+
+1. Une fois l'image uploadée, cliquez dessus pour l'ouvrir
+2. Sous l'image, cherchez la section **"Liens directs"**
+3. Copiez le lien intitulé **"Lien direct"** — il ressemble à :
+   `https://i.ibb.co/AbCd123/nom-de-fichier.jpg`
+   (il doit se terminer par `.jpg` ou `.png`)
 
 ### Étape 3 : Coller le lien dans Google Sheets
 
-1. Ouvrez votre Google Sheets, onglet "Produits"
-2. Dans la colonne "image" de la ligne correspondant à votre maillot, collez le lien copié
-3. Exemple : au lieu de `images/produits/paris24.png`, mettez
-   `https://i.imgur.com/AbCd123.png`
+1. Ouvrez votre Google Sheets, onglet **"Produits"**
+2. Dans la colonne `image` de la ligne du maillot, collez le lien copié
+3. Exemple : `https://i.ibb.co/AbCd123/maillot-paris.jpg`
 
 ### Étape 4 : Vérifier que ça fonctionne
 
-Le site se mettra à jour automatiquement (quelques minutes de délai possible).
+Le site se met à jour automatiquement (quelques minutes de délai possible).
 Si l'image ne s'affiche pas :
 - Vérifiez que le lien se termine bien par `.jpg` ou `.png`
 - Vérifiez qu'il n'y a pas d'espace avant ou après le lien dans la cellule
-- Re-testez le lien en le collant directement dans un nouvel onglet de votre navigateur :
-  si l'image s'affiche seule sur la page, le lien est correct
+- Testez le lien en le collant dans un nouvel onglet : si l'image s'affiche seule, le lien est bon
 
 ### À savoir
 
-- Une fois uploadée sur Imgur, l'image reste en ligne sans limite de temps connue,
-  mais Imgur peut supprimer les images inactives après une longue période sans vue.
-  Pour un usage commercial sérieux, héberger les images directement dans le dossier
-  `images/produits/` du site (via GitHub) reste la solution la plus fiable à long terme.
-- Vous pouvez mélanger les deux méthodes : certaines photos dans `images/produits/`,
-  d'autres en lien Imgur, selon ce qui vous est le plus simple au moment de l'ajout.
+- imgbb héberge les images gratuitement et sans limite de durée connue.
+  Pour un usage commercial sérieux, mettre les photos directement dans `images/produits/`
+  via GitHub reste la solution la plus fiable à long terme.
+- Vous pouvez mélanger les deux : certaines photos dans `images/produits/`,
+  d'autres en lien imgbb, selon ce qui vous est le plus simple.
 
 ---
 

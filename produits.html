@@ -37,6 +37,24 @@
 
   <section class="section">
 
+    <!-- FILTRES PAR CHAMPIONNAT -->
+    <div class="filtres" id="filtres-championnat">
+      <button class="filtre-btn actif" data-championnat="tous">🌍 Tous</button>
+      <button class="filtre-btn" data-championnat="ligue-1">🇫🇷 Ligue 1</button>
+      <button class="filtre-btn" data-championnat="premier-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</button>
+      <button class="filtre-btn" data-championnat="la-liga">🇪🇸 La Liga</button>
+      <button class="filtre-btn" data-championnat="bundesliga">🇩🇪 Bundesliga</button>
+      <button class="filtre-btn" data-championnat="serie-a">🇮🇹 Serie A</button>
+    </div>
+
+    <!-- FILTRES PAR GENRE -->
+    <div class="filtres" id="filtres-genre">
+      <button class="filtre-btn actif" data-genre="tous"><i class="fa-solid fa-users"></i> Tous</button>
+      <button class="filtre-btn" data-genre="homme"><i class="fa-solid fa-person"></i> Homme</button>
+      <button class="filtre-btn" data-genre="femme"><i class="fa-solid fa-person-dress"></i> Femme</button>
+      <button class="filtre-btn" data-genre="enfants"><i class="fa-solid fa-child"></i> Enfants</button>
+    </div>
+
     <!-- FILTRES PAR CATÉGORIE -->
     <div class="filtres" id="filtres">
       <button class="filtre-btn actif" data-categorie="tous">Tous</button>
@@ -129,33 +147,49 @@
       'selections': 'Sélections Nationales'
     };
 
-    let produitsAffichés = [];
-
-    function filtrerEtAfficher(categorie, recherche) {
+    function filtrerEtAfficher() {
       let filtres = TOUS_PRODUITS.filter(p => p.disponible !== false);
 
-      if (categorie && categorie !== 'tous') {
-        filtres = filtres.filter(p => p.categorie === categorie);
-      }
+      if (etatFiltres.championnat !== 'tous')
+        filtres = filtres.filter(p => p.championnat === etatFiltres.championnat);
 
-      if (recherche) {
-        const q = recherche.toLowerCase();
+      if (etatFiltres.genre !== 'tous')
+        filtres = filtres.filter(p => p.genre === etatFiltres.genre);
+
+      if (etatFiltres.categorie !== 'tous')
+        filtres = filtres.filter(p => p.categorie === etatFiltres.categorie);
+
+      if (etatFiltres.recherche) {
+        const q = etatFiltres.recherche.toLowerCase();
         filtres = filtres.filter(p =>
           p.nom.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
+          (p.description || '').toLowerCase().includes(q)
         );
       }
 
       afficherProduits(filtres, 'grille-catalogue');
     }
 
+    function initFiltre(conteneurId, cle) {
+      document.getElementById(conteneurId).addEventListener('click', e => {
+        const btn = e.target.closest('.filtre-btn');
+        if (!btn) return;
+        document.querySelectorAll(`#${conteneurId} .filtre-btn`).forEach(b => b.classList.remove('actif'));
+        btn.classList.add('actif');
+        etatFiltres[cle] = btn.dataset[cle];
+        filtrerEtAfficher();
+      });
+    }
+
+    const etatFiltres = { championnat: 'tous', genre: 'tous', categorie: 'tous', recherche: '' };
+
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         const produits = await chargerProduits();
         await chargerConfig().catch(() => {});
 
-        /* Générer les boutons de filtre à partir des catégories existantes */
-        const categories = [...new Set(produits.map(p => p.categorie))];
+        /* Générer les boutons de filtre catégorie dynamiquement */
+        const categories = [...new Set(produits.map(p => p.categorie).filter(Boolean))];
         const conteneurFiltres = document.getElementById('filtres');
         categories.forEach(cat => {
           const btn = document.createElement('button');
@@ -165,22 +199,15 @@
           conteneurFiltres.appendChild(btn);
         });
 
-        /* Afficher tous les produits au départ */
-        filtrerEtAfficher('tous', '');
+        filtrerEtAfficher();
 
-        /* Gestion des filtres */
-        let categorieActive = 'tous';
-        conteneurFiltres.addEventListener('click', e => {
-          if (!e.target.classList.contains('filtre-btn')) return;
-          conteneurFiltres.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
-          e.target.classList.add('actif');
-          categorieActive = e.target.dataset.categorie;
-          filtrerEtAfficher(categorieActive, document.getElementById('recherche').value);
-        });
+        initFiltre('filtres-championnat', 'championnat');
+        initFiltre('filtres-genre', 'genre');
+        initFiltre('filtres', 'categorie');
 
-        /* Gestion de la recherche */
         document.getElementById('recherche').addEventListener('input', e => {
-          filtrerEtAfficher(categorieActive, e.target.value);
+          etatFiltres.recherche = e.target.value;
+          filtrerEtAfficher();
         });
 
       } catch (e) {

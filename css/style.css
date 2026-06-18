@@ -608,6 +608,57 @@ a { color: inherit; text-decoration: none; }
   cursor: pointer;
 }
 
+/* ===== COPIER MESSAGE + RÉSEAUX ===== */
+.copier-bloc { margin-top: 0.8rem; }
+
+.btn-copier-message {
+  width: 100%;
+  background: var(--fond-carte);
+  border: 2px solid var(--bordure);
+  color: var(--texte);
+  padding: 11px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition);
+}
+.btn-copier-message:hover { border-color: var(--accent); color: var(--accent); }
+.btn-copier-message.copie { background: rgba(245,166,35,0.12); border-color: var(--accent); color: var(--accent); }
+
+.copier-hint {
+  color: var(--texte-muted);
+  font-size: 0.78rem;
+  text-align: center;
+  margin: 0.6rem 0 0.5rem;
+}
+
+.reseaux-commande {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.btn-reseau-commande {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--bordure);
+  color: var(--texte-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+.btn-reseau-commande:hover { border-color: var(--accent); color: var(--texte); }
+
 /* Description section */
 .detail-description {
   border-top: 1px solid var(--bordure);

@@ -191,10 +191,22 @@
                 >
                   <i class="fa-brands fa-whatsapp"></i> Commander via WhatsApp
                 </a>
-                <div style="text-align:center; margin-top:0.3rem">
-                  <a href="${urlSnapchat()}" class="lien-snapchat-detail" target="_blank" rel="noopener">
-                    <i class="fa-brands fa-snapchat"></i> Ou commander via Snapchat
-                  </a>
+                <div class="copier-bloc">
+                  <button class="btn-copier-message" id="btn-copier-message">
+                    <i class="fa-solid fa-copy"></i> Copier le message de commande
+                  </button>
+                  <p class="copier-hint">Puis envoie-le en DM sur :</p>
+                  <div class="reseaux-commande">
+                    <a href="${urlSnapchat()}" class="btn-reseau-commande" target="_blank" rel="noopener">
+                      <i class="fa-brands fa-snapchat"></i> Snap
+                    </a>
+                    <a href="${urlInstagram()}" class="btn-reseau-commande" target="_blank" rel="noopener">
+                      <i class="fa-brands fa-instagram"></i> Insta
+                    </a>
+                    <a href="${urlTikTok()}" class="btn-reseau-commande" target="_blank" rel="noopener">
+                      <i class="fa-brands fa-tiktok"></i> TikTok
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -218,6 +230,20 @@
         });
       });
 
+      /* Message de commande partagé */
+      let messagePourCopie = `Bonjour, je veux commander : ${produit.nom}`;
+
+      /* Bouton copier */
+      document.getElementById('btn-copier-message').addEventListener('click', () => {
+        navigator.clipboard.writeText(messagePourCopie).then(() => {
+          const btn = document.getElementById('btn-copier-message');
+          const orig = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check"></i> Copié !';
+          btn.classList.add('copie');
+          setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copie'); }, 2500);
+        });
+      });
+
       /* Sélection de taille */
       document.getElementById('boutons-tailles').addEventListener('click', e => {
         const btn = e.target.closest('.taille-btn');
@@ -226,11 +252,11 @@
         btn.classList.add('selectionne');
         tailleSélectionnée = btn.dataset.taille;
 
-        /* Met à jour le lien WhatsApp avec la taille */
-        const msg = `Bonjour, je veux commander : ${produit.nom} – Taille ${tailleSélectionnée}`;
-        const num = CONFIG ? CONFIG.reseaux.whatsapp.numero : '';
+        /* Met à jour le message et le lien WhatsApp */
+        messagePourCopie = `Bonjour, je veux commander : ${produit.nom} – Taille ${tailleSélectionnée}`;
+        const num = String((CONFIG?.reseaux?.whatsapp?.numero) || '').replace(/\D/g, '');
         document.getElementById('btn-whatsapp-produit').href =
-          `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+          `https://wa.me/${num}?text=${encodeURIComponent(messagePourCopie)}`;
       });
     }
 

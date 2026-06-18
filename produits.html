@@ -160,10 +160,16 @@
       let filtres = TOUS_PRODUITS.filter(p => p.disponible !== false);
 
       if (etatFiltres.championnat !== 'tous')
-        filtres = filtres.filter(p => p.championnat === etatFiltres.championnat);
+        filtres = filtres.filter(p => {
+          if (!p.championnat || p.championnat === 'tous') return true;
+          return p.championnat.split(',').map(c => c.trim()).includes(etatFiltres.championnat);
+        });
 
       if (etatFiltres.genre !== 'tous')
-        filtres = filtres.filter(p => p.genre === etatFiltres.genre);
+        filtres = filtres.filter(p => {
+          if (!p.genre || p.genre === 'tous') return true;
+          return p.genre.split(',').map(g => g.trim()).includes(etatFiltres.genre);
+        });
 
       if (etatFiltres.categorie !== 'tous')
         filtres = filtres.filter(p => p.categorie === etatFiltres.categorie);

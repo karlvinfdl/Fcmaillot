@@ -37,6 +37,14 @@
 
   <section class="section">
 
+    <!-- FILTRES PAR GENRE -->
+    <div class="filtres" id="filtres-genre">
+      <button class="filtre-btn actif" data-genre="tous"><i class="fa-solid fa-users"></i> Tous</button>
+      <button class="filtre-btn" data-genre="homme"><i class="fa-solid fa-person"></i> Homme</button>
+      <button class="filtre-btn" data-genre="femme"><i class="fa-solid fa-person-dress"></i> Femme</button>
+      <button class="filtre-btn" data-genre="enfants"><i class="fa-solid fa-child"></i> Enfants</button>
+    </div>
+
     <!-- FILTRES PAR CATÉGORIE -->
     <div class="filtres" id="filtres">
       <button class="filtre-btn actif" data-categorie="tous">Tous</button>
@@ -129,20 +137,20 @@
       'selections': 'Sélections Nationales'
     };
 
-    let produitsAffichés = [];
-
-    function filtrerEtAfficher(categorie, recherche) {
+    function filtrerEtAfficher(categorie, genre, recherche) {
       let filtres = TOUS_PRODUITS.filter(p => p.disponible !== false);
 
-      if (categorie && categorie !== 'tous') {
+      if (categorie && categorie !== 'tous')
         filtres = filtres.filter(p => p.categorie === categorie);
-      }
+
+      if (genre && genre !== 'tous')
+        filtres = filtres.filter(p => p.genre === genre);
 
       if (recherche) {
         const q = recherche.toLowerCase();
         filtres = filtres.filter(p =>
           p.nom.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
+          (p.description || '').toLowerCase().includes(q)
         );
       }
 
@@ -154,8 +162,8 @@
         const produits = await chargerProduits();
         await chargerConfig().catch(() => {});
 
-        /* Générer les boutons de filtre à partir des catégories existantes */
-        const categories = [...new Set(produits.map(p => p.categorie))];
+        /* Générer les boutons de filtre catégorie */
+        const categories = [...new Set(produits.map(p => p.categorie).filter(Boolean))];
         const conteneurFiltres = document.getElementById('filtres');
         categories.forEach(cat => {
           const btn = document.createElement('button');
@@ -165,22 +173,34 @@
           conteneurFiltres.appendChild(btn);
         });
 
-        /* Afficher tous les produits au départ */
-        filtrerEtAfficher('tous', '');
-
-        /* Gestion des filtres */
         let categorieActive = 'tous';
-        conteneurFiltres.addEventListener('click', e => {
-          if (!e.target.classList.contains('filtre-btn')) return;
-          conteneurFiltres.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
-          e.target.classList.add('actif');
-          categorieActive = e.target.dataset.categorie;
-          filtrerEtAfficher(categorieActive, document.getElementById('recherche').value);
+        let genreActif = 'tous';
+
+        filtrerEtAfficher('tous', 'tous', '');
+
+        /* Filtre genre */
+        document.getElementById('filtres-genre').addEventListener('click', e => {
+          const btn = e.target.closest('.filtre-btn');
+          if (!btn) return;
+          document.querySelectorAll('#filtres-genre .filtre-btn').forEach(b => b.classList.remove('actif'));
+          btn.classList.add('actif');
+          genreActif = btn.dataset.genre;
+          filtrerEtAfficher(categorieActive, genreActif, document.getElementById('recherche').value);
         });
 
-        /* Gestion de la recherche */
+        /* Filtre catégorie */
+        conteneurFiltres.addEventListener('click', e => {
+          const btn = e.target.closest('.filtre-btn');
+          if (!btn) return;
+          conteneurFiltres.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
+          btn.classList.add('actif');
+          categorieActive = btn.dataset.categorie;
+          filtrerEtAfficher(categorieActive, genreActif, document.getElementById('recherche').value);
+        });
+
+        /* Recherche */
         document.getElementById('recherche').addEventListener('input', e => {
-          filtrerEtAfficher(categorieActive, e.target.value);
+          filtrerEtAfficher(categorieActive, genreActif, e.target.value);
         });
 
       } catch (e) {

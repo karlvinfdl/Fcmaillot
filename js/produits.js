@@ -53,6 +53,7 @@ async function chargerProduits() {
       prix,
       prix_affiche: p.prix_affiche || `${prix}€`,
       tailles,
+      genre:     String(p.genre || '').toLowerCase().trim(),
       disponible: bool(p.disponible),
       populaire:  bool(p.populaire)
     };
@@ -75,7 +76,7 @@ function htmlCarteProduit(produit) {
     .join('');
 
   return `
-    <a href="${lien}" class="carte-produit reveal" data-id="${produit.id}" data-categorie="${produit.categorie}">
+    <a href="${lien}" class="carte-produit reveal" data-id="${produit.id}" data-categorie="${produit.categorie}" data-genre="${produit.genre || ''}">
       <div class="carte-produit-image">
         ${badgePopulaire}
         <img src="${imgSrc}" alt="${produit.nom}" loading="lazy"

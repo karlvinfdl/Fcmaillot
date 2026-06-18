@@ -53,7 +53,8 @@ async function chargerProduits() {
       prix,
       prix_affiche: p.prix_affiche || `${prix}€`,
       tailles,
-      genre:     String(p.genre || '').toLowerCase().trim(),
+      genre:        String(p.genre        || '').toLowerCase().trim(),
+      championnat:  String(p.championnat  || '').toLowerCase().trim(),
       disponible: bool(p.disponible),
       populaire:  bool(p.populaire)
     };

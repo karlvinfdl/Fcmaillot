@@ -37,6 +37,16 @@
 
   <section class="section">
 
+    <!-- FILTRES PAR CHAMPIONNAT -->
+    <div class="filtres" id="filtres-championnat">
+      <button class="filtre-btn actif" data-championnat="tous">🌍 Tous</button>
+      <button class="filtre-btn" data-championnat="ligue-1">🇫🇷 Ligue 1</button>
+      <button class="filtre-btn" data-championnat="premier-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</button>
+      <button class="filtre-btn" data-championnat="la-liga">🇪🇸 La Liga</button>
+      <button class="filtre-btn" data-championnat="bundesliga">🇩🇪 Bundesliga</button>
+      <button class="filtre-btn" data-championnat="serie-a">🇮🇹 Serie A</button>
+    </div>
+
     <!-- FILTRES PAR GENRE -->
     <div class="filtres" id="filtres-genre">
       <button class="filtre-btn actif" data-genre="tous"><i class="fa-solid fa-users"></i> Tous</button>
@@ -137,17 +147,20 @@
       'selections': 'Sélections Nationales'
     };
 
-    function filtrerEtAfficher(categorie, genre, recherche) {
+    function filtrerEtAfficher() {
       let filtres = TOUS_PRODUITS.filter(p => p.disponible !== false);
 
-      if (categorie && categorie !== 'tous')
-        filtres = filtres.filter(p => p.categorie === categorie);
+      if (etatFiltres.championnat !== 'tous')
+        filtres = filtres.filter(p => p.championnat === etatFiltres.championnat);
 
-      if (genre && genre !== 'tous')
-        filtres = filtres.filter(p => p.genre === genre);
+      if (etatFiltres.genre !== 'tous')
+        filtres = filtres.filter(p => p.genre === etatFiltres.genre);
 
-      if (recherche) {
-        const q = recherche.toLowerCase();
+      if (etatFiltres.categorie !== 'tous')
+        filtres = filtres.filter(p => p.categorie === etatFiltres.categorie);
+
+      if (etatFiltres.recherche) {
+        const q = etatFiltres.recherche.toLowerCase();
         filtres = filtres.filter(p =>
           p.nom.toLowerCase().includes(q) ||
           (p.description || '').toLowerCase().includes(q)
@@ -157,12 +170,25 @@
       afficherProduits(filtres, 'grille-catalogue');
     }
 
+    function initFiltre(conteneurId, cle) {
+      document.getElementById(conteneurId).addEventListener('click', e => {
+        const btn = e.target.closest('.filtre-btn');
+        if (!btn) return;
+        document.querySelectorAll(`#${conteneurId} .filtre-btn`).forEach(b => b.classList.remove('actif'));
+        btn.classList.add('actif');
+        etatFiltres[cle] = btn.dataset[cle];
+        filtrerEtAfficher();
+      });
+    }
+
+    const etatFiltres = { championnat: 'tous', genre: 'tous', categorie: 'tous', recherche: '' };
+
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         const produits = await chargerProduits();
         await chargerConfig().catch(() => {});
 
-        /* Générer les boutons de filtre catégorie */
+        /* Générer les boutons de filtre catégorie dynamiquement */
         const categories = [...new Set(produits.map(p => p.categorie).filter(Boolean))];
         const conteneurFiltres = document.getElementById('filtres');
         categories.forEach(cat => {
@@ -173,34 +199,15 @@
           conteneurFiltres.appendChild(btn);
         });
 
-        let categorieActive = 'tous';
-        let genreActif = 'tous';
+        filtrerEtAfficher();
 
-        filtrerEtAfficher('tous', 'tous', '');
+        initFiltre('filtres-championnat', 'championnat');
+        initFiltre('filtres-genre', 'genre');
+        initFiltre('filtres', 'categorie');
 
-        /* Filtre genre */
-        document.getElementById('filtres-genre').addEventListener('click', e => {
-          const btn = e.target.closest('.filtre-btn');
-          if (!btn) return;
-          document.querySelectorAll('#filtres-genre .filtre-btn').forEach(b => b.classList.remove('actif'));
-          btn.classList.add('actif');
-          genreActif = btn.dataset.genre;
-          filtrerEtAfficher(categorieActive, genreActif, document.getElementById('recherche').value);
-        });
-
-        /* Filtre catégorie */
-        conteneurFiltres.addEventListener('click', e => {
-          const btn = e.target.closest('.filtre-btn');
-          if (!btn) return;
-          conteneurFiltres.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
-          btn.classList.add('actif');
-          categorieActive = btn.dataset.categorie;
-          filtrerEtAfficher(categorieActive, genreActif, document.getElementById('recherche').value);
-        });
-
-        /* Recherche */
         document.getElementById('recherche').addEventListener('input', e => {
-          filtrerEtAfficher(categorieActive, genreActif, e.target.value);
+          etatFiltres.recherche = e.target.value;
+          filtrerEtAfficher();
         });
 
       } catch (e) {

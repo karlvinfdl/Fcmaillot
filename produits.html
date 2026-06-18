@@ -38,27 +38,36 @@
   <section class="section">
 
     <!-- FILTRES PAR CHAMPIONNAT -->
-    <div class="filtres" id="filtres-championnat">
-      <button class="filtre-btn actif" data-championnat="tous">🌍 Tous</button>
-      <button class="filtre-btn" data-championnat="ligue-1">🇫🇷 Ligue 1</button>
-      <button class="filtre-btn" data-championnat="premier-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</button>
-      <button class="filtre-btn" data-championnat="la-liga">🇪🇸 La Liga</button>
-      <button class="filtre-btn" data-championnat="bundesliga">🇩🇪 Bundesliga</button>
-      <button class="filtre-btn" data-championnat="serie-a">🇮🇹 Serie A</button>
+    <div class="filtres-groupe">
+      <div class="filtres-label">Championnat</div>
+      <div class="filtres" id="filtres-championnat">
+        <button class="filtre-btn actif" data-championnat="tous">🌍 Tous</button>
+        <button class="filtre-btn" data-championnat="ligue-1">🇫🇷 Ligue 1</button>
+        <button class="filtre-btn" data-championnat="premier-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</button>
+        <button class="filtre-btn" data-championnat="la-liga">🇪🇸 La Liga</button>
+        <button class="filtre-btn" data-championnat="bundesliga">🇩🇪 Bundesliga</button>
+        <button class="filtre-btn" data-championnat="serie-a">🇮🇹 Serie A</button>
+      </div>
     </div>
 
     <!-- FILTRES PAR GENRE -->
-    <div class="filtres" id="filtres-genre">
-      <button class="filtre-btn actif" data-genre="tous"><i class="fa-solid fa-users"></i> Tous</button>
-      <button class="filtre-btn" data-genre="homme"><i class="fa-solid fa-person"></i> Homme</button>
-      <button class="filtre-btn" data-genre="femme"><i class="fa-solid fa-person-dress"></i> Femme</button>
-      <button class="filtre-btn" data-genre="enfants"><i class="fa-solid fa-child"></i> Enfants</button>
+    <div class="filtres-groupe">
+      <div class="filtres-label">Genre</div>
+      <div class="filtres" id="filtres-genre">
+        <button class="filtre-btn actif" data-genre="tous">Tous</button>
+        <button class="filtre-btn" data-genre="homme"><i class="fa-solid fa-person"></i> Homme</button>
+        <button class="filtre-btn" data-genre="femme"><i class="fa-solid fa-person-dress"></i> Femme</button>
+        <button class="filtre-btn" data-genre="enfants"><i class="fa-solid fa-child"></i> Enfants</button>
+      </div>
     </div>
 
     <!-- FILTRES PAR CATÉGORIE -->
-    <div class="filtres" id="filtres">
-      <button class="filtre-btn actif" data-categorie="tous">Tous</button>
-      <!-- Les catégories sont générées dynamiquement par JS -->
+    <div class="filtres-groupe">
+      <div class="filtres-label">Type</div>
+      <div class="filtres" id="filtres">
+        <button class="filtre-btn actif" data-categorie="tous">Tous</button>
+        <!-- Les catégories sont générées dynamiquement par JS -->
+      </div>
     </div>
 
     <!-- BARRE DE RECHERCHE -->

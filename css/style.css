@@ -457,16 +457,28 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ===== FILTRES CATALOGUE ===== */
+.filtres-groupe {
+  margin-bottom: 1.5rem;
+}
+
+.filtres-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--texte-muted);
+  margin-bottom: 0.6rem;
+}
+
 .filtres {
   display: flex;
-  gap: 0.7rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
   justify-content: center;
 }
 
 .filtre-btn {
-  padding: 8px 18px;
+  padding: 8px 16px;
   border-radius: 20px;
   border: 1px solid var(--bordure);
   background: transparent;
@@ -475,6 +487,8 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.85rem;
   font-weight: 600;
   transition: all var(--transition);
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .filtre-btn:hover { border-color: var(--accent); color: var(--accent); }
@@ -1006,6 +1020,21 @@ footer {
   .modal-boite iframe { min-height: 380px; }
 }
 
+/* Mobile — filtres en scroll horizontal */
+@media (max-width: 768px) {
+  .filtres {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filtres::-webkit-scrollbar { display: none; }
+  .filtres-groupe { margin-bottom: 1rem; }
+  .filtre-btn { padding: 7px 14px; font-size: 0.82rem; }
+}
+
 /* Petit mobile */
 @media (max-width: 480px) {
   .grille-produits { gap: 0.55rem; }
@@ -1013,8 +1042,6 @@ footer {
   .detail-prix { font-size: 1.4rem; }
   .taille-btn { padding: 11px 14px; font-size: 0.85rem; }
   .avis-photo { width: 110px; height: 110px; }
-  .filtres { gap: 0.5rem; }
-  .filtre-btn { padding: 7px 14px; font-size: 0.8rem; }
   .page-header { padding: 1.5rem 1rem; }
   .commander-bloc { padding: 1.5rem 1rem; }
   .commander-bloc-btns { flex-direction: column; }

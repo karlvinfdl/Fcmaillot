@@ -138,7 +138,6 @@ document.addEventListener('keydown', e => {
 
 function urlWhatsApp(nomProduit) {
   if (!CONFIG) return '#';
-  /* Supprime tout ce qui n'est pas un chiffre (+, espaces, tirets...) */
   const num = String(CONFIG.reseaux.whatsapp.numero || '').replace(/\D/g, '');
   const msg = nomProduit
     ? `Bonjour, je veux commander : ${nomProduit}`
@@ -146,19 +145,25 @@ function urlWhatsApp(nomProduit) {
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
 
+function _reseau(val, buildUrl) {
+  if (!val) return '#';
+  const v = String(val).split('?')[0].trim();
+  return v.startsWith('http') ? v : buildUrl(v);
+}
+
 function urlSnapchat() {
   if (!CONFIG) return '#';
-  return `https://www.snapchat.com/add/${CONFIG.reseaux.snapchat.profil}`;
+  return _reseau(CONFIG.reseaux.snapchat.profil, v => `https://www.snapchat.com/add/${v}`);
 }
 
 function urlInstagram() {
   if (!CONFIG) return '#';
-  return `https://www.instagram.com/${CONFIG.reseaux.instagram.profil}`;
+  return _reseau(CONFIG.reseaux.instagram.profil, v => `https://www.instagram.com/${v}`);
 }
 
 function urlTikTok() {
   if (!CONFIG) return '#';
-  return `https://www.tiktok.com/${CONFIG.reseaux.tiktok.profil}`;
+  return _reseau(CONFIG.reseaux.tiktok.profil, v => `https://www.tiktok.com/${v}`);
 }
 
 function etoiles(note) {
